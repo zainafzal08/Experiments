@@ -81,3 +81,13 @@ span {
   opacity: 0.2;
   font-size: 1.3rem;
 }
+.points {
+  text-align: left;
+  width: 100%;
+  width: 70vw;
+  padding-left: 5vw;
+  padding-right: 5vw;
+  height: 2rem;
+  font-size: 1.5rem;
+  color: #444;
+}

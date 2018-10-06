@@ -3,7 +3,8 @@ window.onload = init;
 game= {
   factors: [],
   focus: 0,
-  won: false
+  won: false,
+  points: 0
 }
 
 
@@ -31,12 +32,13 @@ function init() {
       d.innerText += e.key;
 
   })
-  let gv = Math.floor(Math.random()*100);
-  while(isPrime(gv) || gv == 1) gv = Math.floor(Math.random()*100);
+  let gv = Math.ceil(Math.random()*100);
+  while(isPrime(gv) || gv == 1) gv = Math.ceil(Math.random()*100);
   game.factors.push(gv);
   game.stage = document.getElementById("stage");
   game.drop = document.getElementById("drop");
   game.historyElem = document.getElementById("history");
+  game.pointsElem = document.getElementById("points");
   render();
 }
 
@@ -81,11 +83,13 @@ function execute() {
 function reset() {
   let p = document.createElement("p");
   p.innerHTML = game.factors.join(" x ");  
+  p.innerHTML += " = "+ game.factors.reduce((a,x)=>a*x,1)
   game.historyElem.prepend(p);
+  game.points += game.factors.splice(0,game.factors.length-1).reduce((a,x)=>a+10*x,0)
   game.focus = 0;
   game.factors = [];
-  let gv = Math.floor(Math.random()*100);
-  while(isPrime(gv) || gv == 1) gv = Math.floor(Math.random()*100);
+  let gv = Math.ceil(Math.random()*1000);
+  while(isPrime(gv) || gv == 1) gv = Math.ceil(Math.random()*100);
   game.factors.push(gv);
   game.won = false;
 }
@@ -93,4 +97,5 @@ function reset() {
 function render() {
   if (game.won) reset();
   game.stage.innerHTML = game.factors.map((x,i)=>`<span ${i==game.focus?'class="focus"'  : ''}>${x}</span>`).join("<span> x </span>");  
+  game.pointsElem.innerText = game.points;
 }
