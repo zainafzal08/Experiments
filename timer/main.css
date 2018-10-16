@@ -1,0 +1,61 @@
+body {
+  font-family: 'Ubuntu', sans-serif;
+  width: 100vw;
+  height: 100vh;
+  margin: 0px;
+  overflow: hidden;
+  background: #FAFAFA;
+}
+
+.centerise {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.row {
+  flex-direction: row;
+}
+.col {
+  flex-direction: column;
+}
+button {
+  outline: none;
+  border: none;
+  font-size: 1rem;
+  border: 1px solid #00D9C0;
+  background-color: #00D9C0;
+  border-radius: 20px;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 0.4rem;
+  padding-bottom: 0.45rem;
+  color: #FAFAFA;
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+  cursor: pointer;
+  width: 5rem;
+}
+button:hover {
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+.face {
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+}
+.face svg {
+    width: 400px;
+    height: 400px;
+    position: absolute;
+    z-index: 900;
+}
+.face span:focus {
+  border: none;
+  outline: none;
+  border-bottom: 2px solid #00D9C0;
+}
+.face span {
+  font-size: 4rem;
+  color: #444;
+  position: absolute;
+  z-index: 999;
+}

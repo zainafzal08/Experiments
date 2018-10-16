@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>Timer</title>
+		<link rel="stylesheet" href="main.css" type="text/css">
+		<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+
+	</head>
+	<body class="centerise row">
+		<button onclick="reset()"> Reset </button>
+		<div class="face centerise">
+			<svg viewBox="0 0 100 100" id="arc-container">
+				<path id="arc1" fill="none" stroke="#00D9C0" stroke-width="2" />
+				<path id="arc2" fill="none" stroke="#EBEBEB" stroke-width="2" />
+				<path id="arc3" fill="none" stroke="#EBEBEB" stroke-width="2" />
+			</svg>
+			<span id="clock" contenteditable="true">14:00</span>
+		</div>
+		<button id="start-btn"> Start </button>
+		<script type="text/javascript" src="main.js"></script>
+	</body>
+</html>
