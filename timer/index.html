@@ -8,16 +8,17 @@
 
 	</head>
 	<body class="centerise row">
-		<button onclick="reset()"> Reset </button>
+		<button id="reset-btn"> Reset </button>
 		<div class="face centerise">
-			<svg viewBox="0 0 100 100" id="arc-container">
+			<svg viewBox="0 0 100 100">
 				<path id="arc1" fill="none" stroke="#00D9C0" stroke-width="2" />
 				<path id="arc2" fill="none" stroke="#EBEBEB" stroke-width="2" />
 				<path id="arc3" fill="none" stroke="#EBEBEB" stroke-width="2" />
 			</svg>
 			<span id="clock" contenteditable="true">14:00</span>
 		</div>
-		<button id="start-btn"> Start </button>
-		<script type="text/javascript" src="main.js"></script>
+		<button id="toggle-btn"> Start </button>
+		<script type="module" src="app.js"></script>
+		<script type="module" src="main.js"></script>
 	</body>
 </html>

@@ -1,22 +1,18 @@
+import { App } from './app.js';
+
 window.onload = init;
 
-config = {
-  percentage: 0,
-  startTime: null,
-  blankColor: "#EBEBEB",
-  goodColor: "#00D9C0",
-  warningColor: "#F2C57C",
-  dangerColor: "#FF4365",
-  toggleBtn: null,
-  started: false
-}
-
 function init() {
+  // set up
   document.getElementById("arc2").setAttribute("d",describeArc(50, 50, 40, 0, 359));
   document.getElementById("arc3").setAttribute("d",describeArc(50, 50, 40, 359, 360));
-  config.toggleBtn = document.getElementById("start-btn");
-  config.clock = document.getElementById("clock");
-  config.toggleBtn.addEventListener("click",toggle);
+  // init app
+  let app = new App();
+  app.bind("toggle-btn").on("click").run(flip)
+}
+
+function flip(b) {
+  b.innerText = this.running ? "Pause" : "Start";
 }
 
 function timeToSeconds(s) {
