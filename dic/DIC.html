@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>Deep Image Creator</title>
+		<link rel="stylesheet" href="main.css" type="text/css">
+		<script type="text/javascript" src="main.js"></script>
+		<link href="https://fonts.googleapis.com/css?family=Montserrat|Roboto" rel="stylesheet">
+	</head>
+	<body>
+		<div class="prompt">
+			<div class="container">
+				<h1 class="title"> DIC </h1>
+				<hr>
+				<div class="row">
+					<div class="col-left">
+						<h2 class="input-label"> Font </h2>
+						<div class="action">
+							<select id="font" onchange="updateFont()">
+								<option value="'Montserrat', sans-serif">
+									Montserrat
+								</option>
+								<option value="'Roboto', sans-serif">
+									Roboto
+								</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-right">
+						<h2 class="input-label"> Shadow </h2>
+						<div class="action">
+	  					<input type="range" min="0" max="10" value="0" class="slider" id="shadow" onchange="updateShadow()">
+						</div>
+					</div>
+				</div>
+				<br>
+				<div class="row">
+					<div class="col-small">
+						<h2 class="input-label"> Top Text </h2>
+						<div class="action">
+							<input class="input input-blue full" type="text" id="top-text" onchange="updateOverlay()" value="Top Text"></input>
+						</div>
+					</div>
+					<div class="col-small">
+						<h2 class="input-label" style="text-align: center; margin-left: 0px;"> Underline </h2>
+						<div class="action action-center">
+							<div class="input-toggle" id="toggle">
+								<div class="toggle-left"></div>
+							</div>
+						</div>
+					</div>					
+					<div class="col-small">
+						<h2 class="input-label"> Bottom Text </h2>
+						<div class="action">
+							<input class="input input-blue full" type="text" id="bottom-text" onchange="updateSubtitle()" value="Bottom Text"></input>
+						</div>
+					</div>
+				</div>				
+				<br>
+				<h2 class="input-label"> Image Url </h2>
+				<div class="action">
+					<input class="input input-blue" type="text" id="url" onchange="updateImage()"></input>
+					<button onclick="randomImage()" class="btn btn-blue">Random</button>
+				</div>
+				<br>
+				<h2 class="input-label"> Blur </h2>
+				<div class="action">
+  					<input type="range" min="0" max="10" value="0" class="slider" id="blur" onchange="updateBlur()">
+				</div>
+				<br>
+				<div class="preview-container">
+					<div id="preview"></div>
+					<div class="overlay-container">
+						<span id="overlay"> Top Text</span>
+						<hr style="display: none" id="underline">
+						<span id="subtitle">  Bottom Text</span>
+					</div>
+				</div>
+				<br><br>
+				<div style="width: 100%; text-align: center; margin-bottom: 2rem">
+					<button onclick="redirect()" class="btn btn-green">Go</button>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
