@@ -3,17 +3,11 @@ import { App } from './app.js';
 window.onload = init;
 
 function init() {
-  // set up
-  document.getElementById("arc2").setAttribute("d",describeArc(50, 50, 40, 0, 359));
-  document.getElementById("arc3").setAttribute("d",describeArc(50, 50, 40, 359, 360));
   // init app
-  let app = new App();
-  app.bind("toggle-btn").on("click").run(flip)
+  let app = new App("root");
+  app.render()
 }
 
-function flip(b) {
-  b.innerText = this.running ? "Pause" : "Start";
-}
 
 function timeToSeconds(s) {
   let components = s.split(":");
@@ -109,7 +103,8 @@ function tick() {
 }
 
 /*
- * Stolen from https://stackoverflow.com/questions/5736398/how-to-calculate-the-svg-path-for-an-arc-of-a-circle
+ * Stolen from
+ * https://stackoverflow.com/questions/5736398/how-to-calculate-the-svg-path-for-an-arc-of-a-circle
  */
 function polarToCartesian(centerX, centerY, radius, angleInDegrees) {
   var angleInRadians = (angleInDegrees-90) * Math.PI / 180.0;
