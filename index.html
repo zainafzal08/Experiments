@@ -16,7 +16,7 @@
 				<h1>  </h1>
 				<hr>
 				<div class="actions">
-					<span class="mdi mdi-share icon"></span>
+					<a id="link"><span class="mdi mdi-share icon"></span></a>
 					<span class="mdi mdi-github-circle icon"></span>
 				</div>
 				<p> no way dude that's wild holy shit is that legit anyway did you hear becky is pregos like <b>mad</b> pregos </p>
@@ -52,7 +52,8 @@
 				title: "Timer",
 				description: "A simple elegant countdown timer, no fuss.",
 				domElem: null,
-				icon: "clock"
+				icon: "clock",
+				link: "/timer"
 			},
 			{
 				title: "Deep Image Creator",
@@ -73,6 +74,7 @@
 		 const sb = document.getElementById("sidebar");
 		 sb.getElementsByTagName("h1")[0].innerText = elem.title;
 		 sb.getElementsByTagName("p")[0].innerHTML = elem.description;
+		 document.getElementById("link").href = elem.link;
 		 sb.classList.add("open");
 		 document.getElementById("main").classList.add("out-focus");
 		}
