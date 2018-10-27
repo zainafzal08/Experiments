@@ -4,7 +4,6 @@ body {
   height: 100vh;
   margin: 0px;
   overflow: hidden;
-  background: #FAFAFA;
 }
 #root {
   width: 100%;
@@ -65,7 +64,7 @@ svg {
   border-bottom: 2px solid #E71D36;
 }
 .face .simple {
-  font-size: 4rem;
+  font-size: 3.5rem;
   color: #444;
   position: absolute;
   margin-bottom: 2px;

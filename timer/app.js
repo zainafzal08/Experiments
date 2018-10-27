@@ -25,6 +25,33 @@ function describeArc(x, y, radius, startAngle, endAngle){
     return d;
 }
 
+function rgb(c) {
+  return {
+    red: parseInt(c.substr(1,2),16),
+    green: parseInt(c.substr(3,2),16),
+    blue: parseInt(c.substr(5,2),16)
+  }
+}
+function linearInterp(f,c1,c2) {
+  c1 = rgb(c1)
+  c2 = rgb(c2)
+  let r = {
+    red: c1.red + f*(c2.red - c1.red),
+    green: c1.green + f*(c2.green - c1.green),
+    blue: c1.blue + f*(c2.blue - c1.blue)
+  }
+  return `rgb(${r.red},${r.green},${r.blue})`;
+}
+
+function gradient(f,colors) {
+  const [c1,c2,c3,c4] = colors;
+  if(c3 == undefined) return linearInterp(f,c1,c2);
+  f = f * 3;
+  if (f <= 1) return linearInterp(f,c1,c2);
+  if (f <= 2) return linearInterp(f-1,c2,c3);
+  if (f <= 3) return linearInterp(f-2,c3,c4);
+}
+
 export class App {
   constructor(rootId) {
     this.root = document.getElementById(rootId);
@@ -40,11 +67,12 @@ export class App {
       if(e.key == " " && this.running) this.pause();
       else if(e.key == " " && !this.running) this.start();
     })
-    this.colors = {
-      red: "#EF767A",
-      yellow: "#FEC601",
-      green: "#00D9C0",
-    }
+    this.colors = [
+      "#00cdac",
+      "#8ddad5",
+      "#f4d03f",
+      "#fe5196"
+    ];
   }
   makeElem(tag,attrs){
     const e = document.createElement(tag);
@@ -81,7 +109,7 @@ export class App {
     const now = new Date();
     this.startTime = now;
     this.end = new Date(now.getTime() + this.parsedTime*1000);
-    this.interval = window.setInterval(()=>this.tick(),500);
+    this.interval = window.setInterval(()=>this.tick(),5);
     this.total = this.parsedTime;
     this.renderCycle();
   }
@@ -92,12 +120,11 @@ export class App {
       this.stop();
       return
     }
-    const passed = Math.floor((now.getTime() - this.startTime.getTime())/1000);
-    const total = Math.ceil((this.end.getTime() - this.startTime.getTime())/1000);
+    const passed = (now.getTime() - this.startTime.getTime());
+    const total = (this.end.getTime() - this.startTime.getTime());
     const percentageDone = (passed/total);
-    const segment = Math.floor(percentageDone*359);
-    if(percentageDone > 0.75) this.arcs[0].stroke = this.colors["yellow"];
-    if(percentageDone > 0.90) this.arcs[0].stroke = this.colors["red"];
+    const segment = percentageDone*359;
+    this.arcs[0].stroke = gradient(percentageDone,this.colors);
     this.arcs[0].d = describeArc(50, 50, 40, 0, segment);
     this.arcs[1].d = describeArc(50, 50, 40, segment, 359);
     this.renderCycle()
@@ -123,6 +150,8 @@ export class App {
     this.arcs[0].stroke = this.colors["green"];
     this.arcs[1].d = describeArc(50, 50, 40, 0, 359);
     this.renderCycle();
+    document.body.classList.remove("flash");
+    document.body.classList.add("flash");
   }
   renderSVG() {
     const svg = this.makeElem("svg",{
@@ -154,7 +183,6 @@ export class App {
   parseTime(s) {
     let components = s.split(":");
     let hours,minutes,seconds;
-    console.log(components);
     if(components.length == 1) {
       seconds = components[0];
       hours = 0;
