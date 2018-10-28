@@ -1,0 +1,107 @@
+body {
+  font-family: 'Montserrat', sans-serif;
+  width: 100vw;
+  height: 100vh;
+  background: #FAFAFA;
+  margin: 0px;
+  display: flex;
+  flex-direction: row;
+}
+
+.panel {
+  margin: 2rem;
+  height: calc(100% - 4rem);
+}
+
+.panel.left {
+   width: calc(60% - 4rem);
+   margin-right: calc(2rem - 2px);
+   border-right: 2px solid #EBEBEB;
+}
+.panel.right {
+   width: calc(40% - 4rem);
+   margin-right: calc(2rem - 2px);
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   flex-direction: column;
+}
+.flashcard {
+  width: 100%;
+  min-height: 10rem;
+  height: 10rem;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  transition: all 0.5s;
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+}
+.flashcard i {
+  font-size: 1.8rem;
+  color: white;
+  transition: 0.5s;
+}
+.flashcard i.flip {
+  transition: 0.5s;
+  transform: rotate(180deg);
+}
+.flashcard .tab {
+  width: 5%;
+  height: 100%;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  background: #5CC8FF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.5s;
+  cursor: pointer;
+}
+.flashcard .tab:hover {
+  width: 7%;
+}
+.flashcard .answer {
+  width: 0%;
+  height: 100%;
+  transition: all 1s;
+  background: #5CC8FF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.flashcard .answer.shown {
+  width: 45%;
+}
+.flashcard .answer h2 {
+  font-weight: 100;
+  color: white;
+    transition: 1s;
+  transform: scale(0);
+}
+.flashcard .answer.shown h2 {
+  transition: 1s;
+  transform: scale(0.8);
+}
+
+.flashcard .content {
+  width: 95%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 1s;
+}
+.flashcard .content.shown {
+  width: 50%;
+}
+.flashcard .content h2 {
+  font-weight: 100;
+  color: #444;
+  transition: 1s;
+}
+.flashcard .content.shown h2 {
+  transition: 1s;
+  transform: scale(0.8);
+}
