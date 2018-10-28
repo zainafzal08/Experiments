@@ -65,7 +65,7 @@ function redirect() {
   params = Object.keys(params).map((x)=>`${x}=${params[x]}`).join("&");
   let a = document.createElement('a');
   a.style.display = "none";
-  a.href = `file:///Users/zain/Desktop/emergency%20memes/DIC_result.html?${params}`
+  a.href = `DIC_result.html?${params}`
   document.body.appendChild(a);
   a.click();
 }

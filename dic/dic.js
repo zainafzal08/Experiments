@@ -1,38 +1,4 @@
 function partyTime() {
-  let centerX = (document.body.clientWidth/2);
-  let centerY = (document.body.clientHeight/2);
-  const tb = document.getElementById("textbox");
-  br = tb.getBoundingClientRect();
-  tb.style.left = (centerX-(br.width/2))+"px";
-  tb.style.top = (centerY-(br.height/2))+"px";
-
-
-  function beginClick(e) {
-    e.preventDefault()
-    // these fuck up if u click on the svg
-    // because the svg has a smaller offset.
-    // same with the text
-    const startX = e.offsetX
-    const startY = e.offsetY
-
-    function holding(e) {
-      tb.style.left = e.x - startX + 'px';
-      tb.style.top =  e.y - startY + 'px';
-    }
-
-    function dropped(e) {
-      document.body.removeEventListener('mousemove', holding)
-      document.body.removeEventListener('mouseup', dropped)
-    }
-
-    document.body.addEventListener('mousemove', holding)
-    document.body.addEventListener('mouseup', dropped)
-
-  }
-
-  tb.addEventListener('mousedown', beginClick);
-
-
   // image
   const url = new URL(window.location.href);
   const img_url = url.searchParams.get("img");
