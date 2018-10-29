@@ -7,29 +7,64 @@ body {
   display: flex;
   flex-direction: row;
 }
-
+h1,h2,h3,h4,h5,h6{
+  margin: 0px;
+  width: 100%;
+}
 .panel {
-  margin: 2rem;
-  height: calc(100% - 4rem);
+  height: 100%;
 }
 
 .panel.left {
-   width: calc(60% - 4rem);
-   margin-right: calc(2rem - 2px);
+   width: calc(60% - 2px - 2rem);
+   padding-left: 1rem;
+   padding-right: 1rem;
    border-right: 2px solid #EBEBEB;
 }
+.panel.left .header {
+  width: 100%;
+  height: 15%;
+  display: flex;
+  align-items: center;
+}
+.panel.left .header .colors {
+    width: 100%;
+}
+
+.panel.left .input {
+  width: 100%;
+  height: 85%;
+}
+.panel.left .input textarea {
+  width: calc(98% - 2rem);
+  height: calc(90% - 2rem);
+  padding: 1rem;
+  border: 2px solid #EBEBEB;
+  border-radius: 10px;
+  resize: none;
+  color: #444;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.2rem;
+}
+.panel.left .input textarea:focus {
+  outline: none;
+  border: 2px solid rgb(92, 200, 255);
+}
+
 .panel.right {
-   width: calc(40% - 4rem);
-   margin-right: calc(2rem - 2px);
+   width: 40%;
    display: flex;
    align-items: center;
    justify-content: center;
    flex-direction: column;
+   max-height: 100%;
+   overflow: scroll;
 }
 .flashcard {
-  width: 100%;
+  width: calc(100% - 2rem);
   min-height: 10rem;
   height: 10rem;
+  margin: 1rem;
   background: white;
   border-radius: 10px;
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
@@ -52,7 +87,6 @@ body {
   height: 100%;
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
-  background: #5CC8FF;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -62,11 +96,13 @@ body {
 .flashcard .tab:hover {
   width: 7%;
 }
+.flashcard .tab.shown:hover {
+  width: 5%;
+}
 .flashcard .answer {
   width: 0%;
   height: 100%;
-  transition: all 1s;
-  background: #5CC8FF;
+  transition: all 0.8s;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -77,11 +113,12 @@ body {
 .flashcard .answer h2 {
   font-weight: 100;
   color: white;
-    transition: 1s;
+  transition: 0.8s;
   transform: scale(0);
+  text-align: center;
 }
 .flashcard .answer.shown h2 {
-  transition: 1s;
+  transition: 0.8s;
   transform: scale(0.8);
 }
 
@@ -91,7 +128,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: 1s;
+  transition: 0.5s;
 }
 .flashcard .content.shown {
   width: 50%;
@@ -99,9 +136,10 @@ body {
 .flashcard .content h2 {
   font-weight: 100;
   color: #444;
-  transition: 1s;
+  transition: 0.8s;
+  text-align: center;
 }
 .flashcard .content.shown h2 {
-  transition: 1s;
+  transition: 0.8s;
   transform: scale(0.8);
 }
