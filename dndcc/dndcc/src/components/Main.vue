@@ -1,0 +1,72 @@
+<template>
+  <div class="snap">
+    <div class="character">
+      <div class="title"><h1>{{title}}<input type="text" v-model="name"></input></h1></div>
+    </div>
+    <div class="selector">
+      <div class="content">
+        <RaceCard key="fullName" v-for="race in races" :race="race"></RaceCard>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import RaceCard from './RaceCard.vue'
+import allRaces from './../assets/races.json'
+
+export default {
+  name: 'Main',
+  components: {RaceCard},
+  data () {
+    return {
+      title: "Pick Race For ",
+      name: "Analytica",
+      races: allRaces
+    }
+  }
+}
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+.character {
+  height: 15%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+.character .title h1 {
+  margin-left: 5rem;
+  font-size: 2rem;
+  margin-bottom: 2px;
+}
+
+.character .title input {
+  border: none;
+  background-color: rgba(0,0,0,0);
+  border-bottom: 2px solid #EBEBEB;
+  font-size: 2rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  font-weight: 100;
+}
+.character .title input:focus {
+  outline: none;
+  border-bottom: 2px solid #2589BD;
+}
+.selector {
+  height: 85%;
+  width: 100%;
+  overflow: scroll;
+}
+.selector .content {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+.snap {
+  width: 100%;
+  height: 100%;
+}
+</style>
