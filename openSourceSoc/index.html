@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>Index</title>
+		<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		<link href="main.css" rel="stylesheet">
+	</head>
+	<body>
+		<div class="landing">
+			<img src="Logo.png"></img>
+			<div class="title-container">
+				<h1 id="title"></h1>
+				<h4 id="subtitle"></h4>
+			</div>
+
+		</div>
+		<div class="info">
+				<div id="item-1" class="item hidden">
+					<div class="heading">
+						<div class="hex">
+							<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="54" height="80" viewbox="0 0 173.20508075688772 200" style="filter: drop-shadow(rgba(255, 255, 255, 0.5) 0px 0px 10px);"><path fill="#3ecf9a" d="M79.67433714816835 3.9999999999999996Q86.60254037844386 0 93.53074360871938 3.9999999999999996L166.27687752661222 46Q173.20508075688772 50 173.20508075688772 58L173.20508075688772 142Q173.20508075688772 150 166.27687752661222 154L93.53074360871938 196Q86.60254037844386 200 79.67433714816835 196L6.92820323027551 154Q0 150 0 142L0 58Q0 50 6.92820323027551 46Z"></path></svg>
+							<i class="material-icons">https</i>
+						</div>
+						<h1> Security </h1>
+					</div>
+						<p>
+							Top Teir CyberCurrency Crytpo Block Chain Cloud Solutions Protect Us
+						</p>
+				</div>
+				<div id="item-2" class="item hidden">
+					<div class="heading">
+						<div class="hex">
+							<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="54" height="80" viewbox="0 0 173.20508075688772 200" style="filter: drop-shadow(rgba(255, 255, 255, 0.5) 0px 0px 10px);"><path fill="#3ecf9a" d="M79.67433714816835 3.9999999999999996Q86.60254037844386 0 93.53074360871938 3.9999999999999996L166.27687752661222 46Q173.20508075688772 50 173.20508075688772 58L173.20508075688772 142Q173.20508075688772 150 166.27687752661222 154L93.53074360871938 196Q86.60254037844386 200 79.67433714816835 196L6.92820323027551 154Q0 150 0 142L0 58Q0 50 6.92820323027551 46Z"></path></svg>
+							<i class="material-icons">schedule</i>
+						</div>
+						<h1> Time Travel </h1>
+					</div>
+						<p>
+							A Nuclear Reactor In Our Car Lets Us Travel Through Time
+						</p>
+				</div>
+				<div id="item-3" class="item hidden">
+					<div class="heading">
+						<div class="hex">
+							<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="54" height="80" viewbox="0 0 173.20508075688772 200" style="filter: drop-shadow(rgba(255, 255, 255, 0.5) 0px 0px 10px);"><path fill="#3ecf9a" d="M79.67433714816835 3.9999999999999996Q86.60254037844386 0 93.53074360871938 3.9999999999999996L166.27687752661222 46Q173.20508075688772 50 173.20508075688772 58L173.20508075688772 142Q173.20508075688772 150 166.27687752661222 154L93.53074360871938 196Q86.60254037844386 200 79.67433714816835 196L6.92820323027551 154Q0 150 0 142L0 58Q0 50 6.92820323027551 46Z"></path></svg>
+							<i class="material-icons">track_changes</i>
+						</div>
+						<h1> Monitoring </h1>
+					</div>
+						<p>
+							Much Like Zucc We Are Always Watching
+						</p>
+				</div>
+		</div>
+		<script>
+		function animateText(elem,characters,delay,final) {
+			if(characters.length <= 0) {
+				final();
+				return;
+			}
+			document.getElementById(elem).innerText += characters[0];
+			setTimeout(()=>animateText(elem,characters.substr(1),delay,final),delay);
+		}
+		function info() {
+			document.getElementById("item-1").classList.remove("hidden");
+			setTimeout(()=>document.getElementById("item-2").classList.remove("hidden"),500);
+			setTimeout(()=>document.getElementById("item-3").classList.remove("hidden"),1000);
+		}
+		function subtitle() {
+			document.getElementById("title").style.borderRight = "none";
+			animateText("subtitle","UNSW",100,info);
+		}
+		window.onload = () => animateText("title","open-source-soc",100,subtitle);
+		</script>
+	</body>
+</html>

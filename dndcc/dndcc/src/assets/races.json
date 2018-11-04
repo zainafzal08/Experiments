@@ -15,6 +15,12 @@
 
       }
     },
+    "summaryStats": {
+      "melee": 47,
+      "healing": 20,
+      "spellcasting": 80,
+      "mixedFighting": 10
+    },
     "features": {
       "Ability": {
         "fullName": "Ability Score",

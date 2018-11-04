@@ -25,7 +25,30 @@
         </div>
       </div>
       <div class="stats">
-        <div class="statItem"></div>
+        <div class="stat-item">
+          <p>Tank/Melee</p>
+          <div class="bar-container">
+            <div class="bar blue" :style="{'width':`${race.summaryStats.melee}%`}"></div>
+          </div>
+        </div>
+        <div class="stat-item">
+          <p>Healing</p>
+          <div class="bar-container">
+            <div class="bar" :style="{'width':`${race.summaryStats.healing}%`}"></div>
+          </div>
+        </div>
+        <div class="stat-item">
+          <p>Spellcasting</p>
+          <div class="bar-container">
+            <div class="bar" :style="{'width':`${race.summaryStats.spellcasting}%`}"></div>
+          </div>
+        </div>
+        <div class="stat-item">
+          <p>Mixed Fighting</p>
+          <div class="bar-container">
+            <div class="bar" :style="{'width':`${race.summaryStats.mixedFighting}%`}"></div>
+          </div>
+        </div>
       </div>
     </template>
   </Card>
@@ -124,4 +147,38 @@ export default {
   font-size: 0.8rem;
   color: #777;
 }
+.stats {
+  width: 100%;
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+.stat-item {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0.4rem;
+}
+.stat-item p {
+  width: 100%;
+  font-size: 0.7rem;
+  color: #777;
+  margin: 0;
+}
+.bar-container {
+  width: 100%;
+  height: 0.6rem;
+  margin-top: 0.2rem;
+  margin-bottom: 0.2rem;
+  border-radius: 15px;
+  background-color: #EBEBEB;
+}
+.bar-container .bar {
+  height: 100%;
+  border-radius: 15px;
+}
+.bar-container .bar.blue {
+  background-color: #2589BD;
+}
+
 </style>
