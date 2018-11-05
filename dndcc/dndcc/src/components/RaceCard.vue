@@ -57,9 +57,17 @@
     <template slot="title">{{race.name}}</template>
     <template slot="subtitle">Pick a Subclass</template>
     <template slot="content">
-      <div class="subrace" v-for="subrace of Object.keys(race.subraces)">
-        <h3 :style="{'color': hashColor(subrace)}"> {{race.subraces[subrace].fullName}} </h3>
-
+      <div class="accordian">
+        <div v-for="subrace of Object.keys(race.subraces)"
+          :class="{
+            'tab': true,
+            'first': subrace === Object.keys(race.subraces)[0]
+          }"
+          >
+          <h3 :style="{'color': hashColor(subrace)}"><span>{{race.subraces[subrace].fullName}}</span></h3>
+          <div class="accordian-content">
+          </div>
+        </div>
       </div>
       <div class="buttons">
       </div>
@@ -226,14 +234,52 @@ export default {
 .bar-container .bar.red {
   background-color: #EF476F;
 }
-.subrace {
+.accordian {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 }
-.subrace>h3 {
+.accordian .tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+.accordian .tab .accordian-content {
+  width: 100%;
+  height: 0px;
+  background-color: #FAFAFA;
+}
+.accordian .tab.active .accordian-content {
+  width: 100%;
+  height: 15rem;
+  border: 1px solid #EBEBEB;
+  border-top: none;
+}
+.accordian .tab.first>h3{
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border-top: 1px solid #EBEBEB;
+}
+.accordian .tab>h3 {
   font-size: 0.9rem;
   margin: 0px;
-  font-weight: 300;
   width: 100%;
-  text-align: left;
+  font-weight: 300;
+  text-align: center;
+  height: 1.1rem;
+  border: 1px solid #EBEBEB;
+  border-top: none;
+}
+.accordian .tab>h3>span {
+  opacity: 0.5;
+}
+.accordian .tab.active>h3>span {
+    opacity: 1;
+}
+.accordian .tab>h3>span:hover {
+  opacity: 1;
 }
 .buttons {
   width: 100%;
