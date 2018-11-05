@@ -1,5 +1,6 @@
 <template>
-  <Card :selectable="true">
+  <div @click="flipped=!flipped" class="overlap">
+  <Card :selectable="true" :flipped="flipped">
     <template slot="title">{{race.name}}</template>
     <template slot="subtitle">{{race.tagline}}</template>
     <template slot="content">
@@ -8,7 +9,7 @@
           <b>{{item}}</b><span>{{race.physical[item]}}</span>
         </div>
       </div>
-      <div class="features">
+      <div class="features" @click.stop="">
         <div class="tabs">
           <div
           v-for="feature of Object.keys(race.features)"
@@ -26,32 +27,45 @@
       </div>
       <div class="stats">
         <div class="stat-item">
-          <p>Tank/Melee</p>
+          <p>Tanking</p>
           <div class="bar-container">
-            <div class="bar blue" :style="{'width':`${race.summaryStats.melee}%`}"></div>
+            <div class="bar blue" :style="{'width':`${race.summaryStats.tanking}%`}"></div>
           </div>
         </div>
         <div class="stat-item">
           <p>Healing</p>
           <div class="bar-container">
-            <div class="bar" :style="{'width':`${race.summaryStats.healing}%`}"></div>
+            <div class="bar green" :style="{'width':`${race.summaryStats.healing}%`}"></div>
           </div>
         </div>
         <div class="stat-item">
           <p>Spellcasting</p>
           <div class="bar-container">
-            <div class="bar" :style="{'width':`${race.summaryStats.spellcasting}%`}"></div>
+            <div class="bar purple" :style="{'width':`${race.summaryStats.spellcasting}%`}"></div>
           </div>
         </div>
         <div class="stat-item">
-          <p>Mixed Fighting</p>
+          <p>Melee</p>
           <div class="bar-container">
-            <div class="bar" :style="{'width':`${race.summaryStats.mixedFighting}%`}"></div>
+            <div class="bar red" :style="{'width':`${race.summaryStats.melee}%`}"></div>
           </div>
         </div>
       </div>
     </template>
   </Card>
+  <Card :selectable="true" :flipped="!flipped">
+    <template slot="title">{{race.name}}</template>
+    <template slot="subtitle">Pick a Subclass</template>
+    <template slot="content">
+      <div class="subrace" v-for="subrace of Object.keys(race.subraces)">
+        <h3 :style="{'color': hashColor(subrace)}"> {{race.subraces[subrace].fullName}} </h3>
+
+      </div>
+      <div class="buttons">
+      </div>
+    </template>
+  </Card>
+  </div>
 </template>
 
 <script>
@@ -62,7 +76,20 @@ export default {
   components: {Card},
   data () {
     return {
-      activeTab: Object.keys(this.race.features)[0]
+      activeTab: Object.keys(this.race.features)[0],
+      flipped: false
+    }
+  },
+  methods: {
+    hashColor(name) {
+      let c = name.hashCode() % 4;
+      let colors = [
+        "#2589BD",
+        "#09BC8A",
+        "#4C4C9D",
+        "#EF476F"
+      ];
+      return colors[c];
     }
   }
 }
@@ -70,6 +97,16 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.overlap {
+  width: 400px;
+  height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.overlap>div {
+  position: absolute;
+}
 .physical-information {
   width: 100%;
   display: flex;
@@ -180,5 +217,30 @@ export default {
 .bar-container .bar.blue {
   background-color: #2589BD;
 }
-
+.bar-container .bar.green {
+  background-color: #09BC8A;
+}
+.bar-container .bar.purple {
+  background-color: #4C4C9D;
+}
+.bar-container .bar.red {
+  background-color: #EF476F;
+}
+.subrace {
+}
+.subrace>h3 {
+  font-size: 0.9rem;
+  margin: 0px;
+  font-weight: 300;
+  width: 100%;
+  text-align: left;
+}
+.buttons {
+  width: 100%;
+  height: 1.5rem;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+}
 </style>

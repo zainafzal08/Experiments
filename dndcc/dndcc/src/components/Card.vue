@@ -1,7 +1,8 @@
 <template>
   <div :class="{
     'card': true,
-    'clickable': selectable
+    'clickable': selectable,
+    'flipped': flipped
     }">
     <h2><slot name="title"></slot></h2>
     <h4><slot name="subtitle"></slot></h4>
@@ -19,6 +20,10 @@ export default {
   name: 'Card',
   props: {
     selectable: {
+      type: Boolean,
+      default: false
+    },
+    flipped: {
       type: Boolean,
       default: false
     }
@@ -41,6 +46,7 @@ export default {
   margin-left: 1rem;
   margin-right: 1rem;
   transition: all 0.3s;
+  backface-visibility: hidden;
 }
 .card h2 {
   margin-left: 1rem;
@@ -72,5 +78,8 @@ export default {
   width: calc(100% - 2rem);
   padding-left: 1rem;
   padding-right: 1rem;
+}
+.flipped {
+  transform: rotateY(180deg);
 }
 </style>

@@ -9,17 +9,41 @@
     },
     "subraces": {
       "Mountain Dwarf": {
-
+        "fullName": "Mountain Dwarf",
+        "features": {
+          "ability": {
+            "fullName": "Ability Score Increase",
+            "desc": "Stength +2",
+            "icon": "plus-one"
+          },
+          "armor": {
+            "fullName": "Dwarven Armor Training",
+            "desc": "You have proficiency with light and medium armor",
+            "icon": "shield"
+          }
+        }
       },
       "Hill Dwarf": {
-
+        "fullName": "Hill Dwarf",
+        "features": {
+          "ability": {
+            "fullName": "Ability Score Increase",
+            "desc": "Wisdom +2",
+            "icon": "plus-one"
+          },
+          "armor": {
+            "fullName": "Dwarven Toughness",
+            "desc": "Your hit point maximum increases by 1, and it increases by 1 every time you gain a level",
+            "icon": "boxing-glove"
+          }
+        }
       }
     },
     "summaryStats": {
-      "melee": 47,
-      "healing": 20,
-      "spellcasting": 80,
-      "mixedFighting": 10
+      "tanking": 90,
+      "healing": 10,
+      "spellcasting": 10,
+      "melee": 60
     },
     "features": {
       "Ability": {
