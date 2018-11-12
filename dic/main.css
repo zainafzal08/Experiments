@@ -1,13 +1,13 @@
 body {
   font-family: 'Roboto', sans-serif;
 }
-.prompt {
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.container {
+  width: 50%;
+  margin-left: 25%;
+  margin-right: 25%;
 }
+
+/* SLIDER */
 .slider {
   width: 100%;
   -webkit-appearance: none;
@@ -34,11 +34,9 @@ body {
     background: #3FA7D6;
     cursor: pointer;
 }
-.prompt .container {
-  width: 50%;
-  height: 95%;
-}
-.prompt .action {
+
+/* Form Sets */
+.action {
   width: 100%;
   height: 2rem;
   display: flex;
@@ -46,7 +44,9 @@ body {
   align-items: center;
   justify-content: space-between;
 }
-.prompt .preview-container{
+
+/* Preview */
+.preview-container{
   width: 100%;
   height: 20rem;
   border: 2px #EBEBEB solid;
@@ -58,6 +58,16 @@ body {
   height: 20rem;
   background-position: center;
   position: absolute;
+  z-index: 100;
+}
+#preview-cover {
+  width: 50vw;
+  height: 20rem;
+  background-position: center;
+  position: absolute;
+  z-index: 105;
+  opacity: 0;
+  background-color: black;
 }
 .overlay-container {
   width: 50vw;
@@ -68,9 +78,10 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
 }
-.prompt .action .input {
+
+/* Text Input */
+.action .input {
   width: calc(80% - 2rem);
   height: 100%;
   border: 2px #EBEBEB solid;
@@ -80,11 +91,20 @@ body {
   font-size: 1.1rem;
   text-align: center;
 }
-.prompt .action .input:focus {
+.action .input:focus {
   outline: none;
 }
-.prompt .action .input-blue:focus {
+.action .input-blue:focus {
     border: 2px #3FA7D6 solid;
+}
+
+.action.action-tooltip .input {
+  width: calc(80% - 4rem);
+}
+.action.action-tooltip .input-color {
+  width: 1.5rem;
+  margin-left: 0.5rem;
+  height: 1.5rem;
 }
 .btn {
   width: 6rem;
@@ -99,13 +119,13 @@ body {
   outline: none;
 }
 
-.prompt .container .input-label {
+.container .input-label {
   margin-left: 1rem;
   font-family: 'Montserrat', sans-serif;
   margin-top: 0;
   margin-bottom: 1rem;
 }
-.prompt hr {
+hr {
   width: 80%;
   border: none;
   height: 2px;
@@ -114,7 +134,7 @@ body {
   margin-bottom: 2rem;
 }
 
-.prompt .title {
+.title {
   width: 100%;
   text-align: center;
   font-family: 'Montserrat', sans-serif;
@@ -246,4 +266,19 @@ body {
   margin: 0px;
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
+}
+
+.input-color {
+  width: 1.5rem;
+  height: 1.5rem;
+  cursor: pointer;
+  border-radius: 50%;
+  border: 2px solid #EBEBEB;
+}
+.input-color input[type=color] {
+  cursor: pointer;
+  width: 1.5rem;
+  height: 1.5rem;
+  opacity: 0;
+  position: absolute;
 }

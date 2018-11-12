@@ -1,5 +1,8 @@
 let toggleState = false;
 
+function $(id) {
+  return document.getElementById(id);
+}
 window.onload = function() {
   document.getElementById("toggle").addEventListener("click",(e)=>{
     let toggle = e.target.children[0];
@@ -16,8 +19,13 @@ window.onload = function() {
     if(toggleState) document.getElementById("underline").style.display = "";
     else document.getElementById("underline").style.display = "none";
   });
+  document.getElementById("top-color").value = "#444444";
+  document.getElementById("bottom-color").value = "#777777";
+  updateColor("top-color");
+  updateColor("bottom-color");
 }
 
+// THIS IS SO UGLY BUT I DON'T WANT TO REFACTOR
 function randomImage() {
   fetch("https://source.unsplash.com/random")
     .then((r)=>{
@@ -50,7 +58,19 @@ function updateSubtitle() {
   let v = document.getElementById("bottom-text").value;
   document.getElementById('subtitle').innerText = v;
 }
-
+function updateColor(id) {
+  let e = document.getElementById(id);
+  e.parentNode.style.backgroundColor = e.value;
+  updatePreview();
+}
+function updatePreview() {
+  $("overlay").style.color = $("top-color").value;
+  $("subtitle").style.color = $("bottom-color").value;
+}
+function updateDarkness() {
+  let v = $('darkness').value;
+  $('preview-cover').style.opacity = v/100;
+}
 function redirect() {
   // font shadow blur url
   let params = {
@@ -60,7 +80,10 @@ function redirect() {
     "img": document.getElementById('url').value,
     "text": document.getElementById('top-text').value,
     "subtext": document.getElementById('bottom-text').value,
-    "underline": toggleState
+    "underline": toggleState,
+    "textColor": document.getElementById('top-color').value.substr(1),
+    "subtextColor": document.getElementById('bottom-color').value.substr(1),
+    "darkness": document.getElementById('darkness').value/100,
   };
   params = Object.keys(params).map((x)=>`${x}=${params[x]}`).join("&");
   let a = document.createElement('a');
