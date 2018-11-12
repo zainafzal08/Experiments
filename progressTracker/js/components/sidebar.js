@@ -1,4 +1,4 @@
-import {$,node,flash} from './util.js'
+import {$,node,flash} from '../tools/util.js'
 
 class _sidebar {
   constructor() {
