@@ -18,7 +18,7 @@ body {
   background: #FAFAFA;
   margin: 0px;
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
   font-family: 'Montserrat', sans-serif;
 }
 </style>

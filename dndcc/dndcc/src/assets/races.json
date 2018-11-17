@@ -10,18 +10,18 @@
     "subraces": {
       "Mountain Dwarf": {
         "fullName": "Mountain Dwarf",
-        "features": {
-          "ability": {
+        "features": [
+          {
             "fullName": "Ability Score Increase",
             "desc": "Stength +2",
             "icon": "plus-one"
           },
-          "armor": {
+          {
             "fullName": "Dwarven Armor Training",
             "desc": "You have proficiency with light and medium armor",
-            "icon": "shield"
+            "icon": "shield-outline"
           }
-        }
+        ]
       },
       "Hill Dwarf": {
         "fullName": "Hill Dwarf",
@@ -34,7 +34,7 @@
           "armor": {
             "fullName": "Dwarven Toughness",
             "desc": "Your hit point maximum increases by 1, and it increases by 1 every time you gain a level",
-            "icon": "boxing-glove"
+            "icon": "heart-half-full"
           }
         }
       }

@@ -57,19 +57,20 @@
     <template slot="title">{{race.name}}</template>
     <template slot="subtitle">Pick a Subclass</template>
     <template slot="content">
-      <div class="accordian">
-        <div v-for="subrace of Object.keys(race.subraces)"
-          :class="{
-            'tab': true,
-            'first': subrace === Object.keys(race.subraces)[0]
-          }"
-          >
-          <h3 :style="{'color': hashColor(subrace)}"><span>{{race.subraces[subrace].fullName}}</span></h3>
-          <div class="accordian-content">
+      <FamilyTree :root="race.name" :children="Object.keys(race.subraces)"></FamilyTree>
+      <div class="info">
+        <div class="info-box" v-for="subrace in Object.keys(race.subraces)" @click.stop="">
+          <div :tooltip="feature.desc" v-for="feature in race.subraces[subrace].features">
+            <i :class="`mdi mdi-${feature.icon}`"></i>
           </div>
         </div>
       </div>
-      <div class="buttons">
+      <div class="info" @click.stop="$emit('selectionUpdate',{race:selected})">
+        <div :ref="`${subrace}Select`" v-for="subrace in Object.keys(race.subraces)"
+             :class="{'select': true,'active': subrace === selected}"
+             @click="selected = subrace;">
+             <i class="mdi mdi-check"></i>
+        </div>
       </div>
     </template>
   </Card>
@@ -78,27 +79,20 @@
 
 <script>
 import Card from './Card.vue'
+import FamilyTree from './FamilyTree.vue'
+
 export default {
   name: 'RaceCard',
   props: ["race"],
-  components: {Card},
+  components: {Card,FamilyTree},
   data () {
     return {
       activeTab: Object.keys(this.race.features)[0],
-      flipped: false
+      flipped: false,
+      selected: null
     }
   },
   methods: {
-    hashColor(name) {
-      let c = name.hashCode() % 4;
-      let colors = [
-        "#2589BD",
-        "#09BC8A",
-        "#4C4C9D",
-        "#EF476F"
-      ];
-      return colors[c];
-    }
   }
 }
 </script>
@@ -234,59 +228,119 @@ export default {
 .bar-container .bar.red {
   background-color: #EF476F;
 }
-.accordian {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-}
-.accordian .tab {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-}
-.accordian .tab .accordian-content {
-  width: 100%;
-  height: 0px;
-  background-color: #FAFAFA;
-}
-.accordian .tab.active .accordian-content {
-  width: 100%;
-  height: 15rem;
-  border: 1px solid #EBEBEB;
-  border-top: none;
-}
-.accordian .tab.first>h3{
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
-  border-top: 1px solid #EBEBEB;
-}
-.accordian .tab>h3 {
-  font-size: 0.9rem;
-  margin: 0px;
-  width: 100%;
-  font-weight: 300;
-  text-align: center;
-  height: 1.1rem;
-  border: 1px solid #EBEBEB;
-  border-top: none;
-}
-.accordian .tab>h3>span {
-  opacity: 0.5;
-}
-.accordian .tab.active>h3>span {
-    opacity: 1;
-}
-.accordian .tab>h3>span:hover {
-  opacity: 1;
-}
 .buttons {
-  width: 100%;
+  width: calc(400px - 2rem);
+  margin-bottom: 2rem;
   height: 1.5rem;
   display: flex;
   align-items: center;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-around;
+  position: absolute;
+  bottom: 0;
+}
+.btn {
+  border: none;
+  outline: none;
+  color: #777;
+  font-family: 'Montserrat', sans-serif;
+  cursor: pointer;
+  background-color: #FAFAFA;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.22);
+  border-radius: 5px;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  transition: 0.3s;
+  background-color: #2589BD;
+  color: white;
+}
+.btn:hover {
+    box-shadow: 0 4px 3px rgba(0,0,0,0.22);
+    cursor: pointer;
+}
+.info {
+  width: 100%;
+  align-items: center;
+  justify-content: space-around;
+  flex-direction: row;
+  display: flex;
+  margin-bottom: 1rem;
+}
+.info-box {
+  width: 2rem;
+  border-radius: 5px;
+  border: 1px solid #EBEBEB;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  cursor: default;
+}
+.info-box div{
+  color: #BBB;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+.info-box div:hover {
+  color: #777;
+}
+.select {
+  border-radius: 50%;
+  width: 1.5rem;
+  height: 1.5rem;
+  background-color: #EBEBEB;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.3s;
+}
+.select:hover {
+  background-color: rgba(9,188,138,0.5);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.16), 0 1px 3px rgba(0,0,0,0.23);
+}
+.select.active {
+  background-color: rgba(9,188,138,1);
+}
+[tooltip]{
+  position: relative;
+  z-index: 2;
+  cursor: default;
+}
+[tooltip]::before {
+  z-index: 10;
+  position: absolute;
+  bottom: calc(150% - 5px);
+  width: 0;
+  height: 0;
+  left: 50%;
+  margin-left: -5px;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid rgba(68,68,68,0.8);
+  content: "";
+  visibility: hidden;
+}
+[tooltip]::after {
+  z-index: 5;
+  position: absolute;
+  content: attr(tooltip);
+  bottom: 150%;
+  width: 100px;
+  left: -50px;
+  text-align: center;
+  background-color: rgba(68,68,68,0.8);
+  border-radius: 3px;
+  color: white;
+  font-size: 0.7rem;
+  font-style: normal;
+  padding: 0.5rem;
+  visibility: hidden;
+}
+[tooltip]:hover:after,
+[tooltip]:hover:before {
+    visibility: visible;
 }
 </style>

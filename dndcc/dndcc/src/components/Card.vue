@@ -3,7 +3,8 @@
     'card': true,
     'clickable': selectable,
     'flipped': flipped
-    }">
+    }"
+    >
     <h2><slot name="title"></slot></h2>
     <h4><slot name="subtitle"></slot></h4>
     <hr>

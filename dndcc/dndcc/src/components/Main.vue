@@ -1,11 +1,27 @@
 <template>
   <div class="snap">
-    <div class="character">
-      <div class="title"><h1>{{title}}<input type="text" v-model="name"></input></h1></div>
+    <div class="title">
+      <h1>
+        <input type="text" v-model="name"></input>
+        Has Race:
+        <span class="selectedRace">{{race}}</span>
+      </h1>
     </div>
     <div class="selector">
       <div class="content">
-        <RaceCard key="fullName" v-for="race in races" :race="race"></RaceCard>
+        <RaceCard key="fullName" v-for="race in races" :race="race" @selectionUpdate="update($event)"></RaceCard>
+      </div>
+    </div>
+    <div class="title">
+      <h1>
+        <input type="text" v-model="name"></input>
+        Has Class:
+        <span class="selectedRace">{{className}}</span>
+      </h1>
+    </div>
+    <div class="selector">
+      <div class="content">
+
       </div>
     </div>
   </div>
@@ -20,9 +36,17 @@ export default {
   components: {RaceCard},
   data () {
     return {
-      title: "Pick Race For ",
+      title: " Is a",
       name: "Analytica",
+      race: "...",
+      className: "...",
       races: allRaces.splice(0,1)
+    }
+  },
+  methods: {
+    update(changes) {
+      for (let change of Object.keys(changes))
+        this[change] = changes[change];
     }
   },
   created() {
@@ -45,19 +69,20 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.character {
-  height: 15%;
+.title {
   width: 100%;
+  height: 15vh;
   display: flex;
   align-items: center;
 }
-.character .title h1 {
+.title h1 {
   margin-left: 5rem;
   font-size: 2rem;
   margin-bottom: 2px;
+  margin-top: 0px;
 }
 
-.character .title input {
+.title input {
   border: none;
   background-color: rgba(0,0,0,0);
   border-bottom: 2px solid #EBEBEB;
@@ -65,23 +90,24 @@ export default {
   padding-left: 1rem;
   padding-right: 1rem;
   font-weight: 100;
+  width: 10rem;
+  text-align: center;
 }
-.character .title input:focus {
+.title input:focus {
   outline: none;
   border-bottom: 2px solid #2589BD;
 }
+.title span {
+   color: #2589BD;
+}
 .selector {
-  height: 85%;
+  height: 70vh;
   width: 100%;
   overflow: scroll;
 }
 .selector .content {
   display: flex;
   align-items: center;
-  height: 100%;
-}
-.snap {
-  width: 100%;
   height: 100%;
 }
 </style>
