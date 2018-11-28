@@ -26,7 +26,7 @@ export default {
   computed: {
     base() {
       let numE = this.children.length;
-      if (numE === 1) return 200;
+      if (numE === 1 || numE === 0) return 200;
       return 200/(2*(numE-1));
     }
   },
@@ -34,7 +34,7 @@ export default {
     xDisplace(index) {
       let gap;
       let numE = this.children.length;
-      if (numE === 1) gap = 0;
+      if (numE === 1 || numE === 0) gap = 0;
       else gap = (400 - 2*this.base)/(numE-1);
       let offset = gap*index;
       return this.base+offset;

@@ -3,21 +3,15 @@
     <div class="title">
       <h1>
         <input type="text" v-model="name"></input>
-        Has Race:
-        <span class="selectedRace">{{race}}</span>
+        Is a
+        <span class="selectedRace">{{raceName}}</span>,
+        <span class="selectedRace">{{className}}</span>
       </h1>
     </div>
     <div class="selector">
       <div class="content">
-        <RaceCard key="fullName" v-for="race in races" :race="race" @selectionUpdate="update($event)"></RaceCard>
+        <RaceCard v-for="race in races" :race="race" :selected="raceName" :key="race.name" @selectionUpdate="update($event)"></RaceCard>
       </div>
-    </div>
-    <div class="title">
-      <h1>
-        <input type="text" v-model="name"></input>
-        Has Class:
-        <span class="selectedRace">{{className}}</span>
-      </h1>
     </div>
     <div class="selector">
       <div class="content">
@@ -38,9 +32,9 @@ export default {
     return {
       title: " Is a",
       name: "Analytica",
-      race: "...",
+      raceName: "...",
       className: "...",
-      races: allRaces.splice(0,1)
+      races: allRaces
     }
   },
   methods: {
@@ -50,19 +44,7 @@ export default {
     }
   },
   created() {
-    /* Stolen from
-     https://stackoverflow.com/questions/7616461/generate-a-hash-from-string-in-javascript
-     */
-    String.prototype.hashCode = function() {
-      var hash = 0, i, chr;
-      if (this.length === 0) return hash;
-      for (i = 0; i < this.length; i++) {
-        chr   = this.charCodeAt(i);
-        hash  = ((hash << 5) - hash) + chr;
-        hash |= 0; // Convert to 32bit integer
-      }
-      return Math.abs(hash);
-    };
+
   }
 }
 </script>
@@ -101,13 +83,16 @@ export default {
    color: #2589BD;
 }
 .selector {
-  height: 70vh;
-  width: 100%;
-  overflow: scroll;
+  height: 700px;
+  width: 100vw;
+  max-width: 100vw;
+  overflow-x: scroll;
 }
 .selector .content {
-  display: flex;
-  align-items: center;
   height: 100%;
+  width: auto;
+  white-space: nowrap;
+  display: flex;
+  align-items: row;
 }
 </style>

@@ -13,6 +13,7 @@ export default {
 <style>
 body {
   margin: 0px;
+  background: #FAFAFA;
 }
 #app {
   background: #FAFAFA;

@@ -1,13 +1,16 @@
 import Component from './Component.js'
-import {$,node} from '../tools/util.js'
+import Red from './Red.js'
 
 class Test extends Component {
   constructor (id) {
     super(id);
+    this.msg = "Hello";
+    this.msg2 = "World";
+    this.components["Red"] = Red;
   }
   template() {
     return `
-      <div> Hello world! </div>
+      <div> {{this.msg}} <Red>{{this.msg2}}</Red> </div>
     `
   }
 }

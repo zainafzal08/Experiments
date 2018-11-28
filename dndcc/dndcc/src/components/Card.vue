@@ -2,7 +2,8 @@
   <div :class="{
     'card': true,
     'clickable': selectable,
-    'flipped': flipped
+    'flipped': flipped,
+    'back': back
     }"
     >
     <h2><slot name="title"></slot></h2>
@@ -27,6 +28,10 @@ export default {
     flipped: {
       type: Boolean,
       default: false
+    },
+    back: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
@@ -43,9 +48,6 @@ export default {
   background-color: white;
   border-radius: 10px;
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-  flex: 0 0 auto;
-  margin-left: 1rem;
-  margin-right: 1rem;
   transition: all 0.3s;
   backface-visibility: hidden;
 }
@@ -82,5 +84,9 @@ export default {
 }
 .flipped {
   transform: rotateY(180deg);
+  opacity: 0;
+}
+.back {
+  margin-left: -100%;
 }
 </style>

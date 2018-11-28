@@ -1,5 +1,5 @@
 <template>
-  <div @click="flipped=!flipped" class="overlap">
+  <div @click="flipped=!flipped" class="card-stack">
   <Card :selectable="true" :flipped="flipped">
     <template slot="title">{{race.name}}</template>
     <template slot="subtitle">{{race.tagline}}</template>
@@ -12,13 +12,13 @@
       <div class="features" @click.stop="">
         <div class="tabs">
           <div
-          v-for="feature of Object.keys(race.features)"
+          v-for="(feature,i) in race.features"
           :class="{
             'tab': true,
-            'active': activeTab===feature
+            'active': activeTab===i
           }"
-          @click="activeTab = feature"
-          ><i :class="`mdi mdi-${race.features[feature].icon}`"></i></div>
+          @click="activeTab = i"
+          ><i :class="`mdi mdi-${feature.icon}`"></i></div>
         </div>
         <div class="tab-content">
           <h3>{{race.features[activeTab].fullName}}</h3>
@@ -29,46 +29,55 @@
         <div class="stat-item">
           <p>Tanking</p>
           <div class="bar-container">
-            <div class="bar blue" :style="{'width':`${race.summaryStats.tanking}%`}"></div>
+            <div class="bar blue" :style="{'width':`40%`}"></div>
           </div>
         </div>
         <div class="stat-item">
-          <p>Healing</p>
+          <p>Support</p>
           <div class="bar-container">
-            <div class="bar green" :style="{'width':`${race.summaryStats.healing}%`}"></div>
+            <div class="bar green" :style="{'width':`50%`}"></div>
           </div>
         </div>
         <div class="stat-item">
           <p>Spellcasting</p>
           <div class="bar-container">
-            <div class="bar purple" :style="{'width':`${race.summaryStats.spellcasting}%`}"></div>
+            <div class="bar purple" :style="{'width':`10%`}"></div>
           </div>
         </div>
         <div class="stat-item">
           <p>Melee</p>
           <div class="bar-container">
-            <div class="bar red" :style="{'width':`${race.summaryStats.melee}%`}"></div>
+            <div class="bar red" :style="{'width':`90%`}"></div>
           </div>
         </div>
       </div>
     </template>
   </Card>
-  <Card :selectable="true" :flipped="!flipped">
+  <Card :selectable="true" :flipped="!flipped" :back="true">
     <template slot="title">{{race.name}}</template>
-    <template slot="subtitle">Pick a Subclass</template>
+    <template slot="subtitle">Pick a Subrace</template>
     <template slot="content">
-      <FamilyTree :root="race.name" :children="Object.keys(race.subraces)"></FamilyTree>
+      <FamilyTree :root="race.name" :children="race.subraces.length > 0 ? race.subraces.map(x=>x.fullName) : ['Common '+race.name]"></FamilyTree>
       <div class="info">
-        <div class="info-box" v-for="subrace in Object.keys(race.subraces)" @click.stop="">
-          <div :tooltip="feature.desc" v-for="feature in race.subraces[subrace].features">
+        <div class="info-box" v-for="subrace in race.subraces" @click.stop="">
+          <div :tooltip="feature.link ? feature.fullName+': Click for more info' : feature.desc"
+               v-for="feature in subrace.features"
+               :class="{'expandable': feature.link}"
+               @click="feature.link && openTab(feature.desc)"
+               >
             <i :class="`mdi mdi-${feature.icon}`"></i>
           </div>
         </div>
       </div>
-      <div class="info" @click.stop="$emit('selectionUpdate',{race:selected})">
-        <div :ref="`${subrace}Select`" v-for="subrace in Object.keys(race.subraces)"
-             :class="{'select': true,'active': subrace === selected}"
-             @click="selected = subrace;">
+      <div class="info">
+        <div v-if="race.subraces.length === 0"
+             :class="{'select': true,'active': race.name === selected}"
+             @click.stop="$emit('selectionUpdate',{raceName: race.name})">
+             <i class="mdi mdi-check"></i>
+        </div>
+        <div v-for="subrace in race.subraces"
+             :class="{'select': true,'active': subrace.fullName+' '+race.name === selected}"
+              @click.stop="$emit('selectionUpdate',{raceName: subrace.fullName+' '+race.name})">
              <i class="mdi mdi-check"></i>
         </div>
       </div>
@@ -83,32 +92,35 @@ import FamilyTree from './FamilyTree.vue'
 
 export default {
   name: 'RaceCard',
-  props: ["race"],
+  props: ["race","selected"],
   components: {Card,FamilyTree},
   data () {
     return {
-      activeTab: Object.keys(this.race.features)[0],
-      flipped: false,
-      selected: null
+      activeTab: 0,
+      flipped: false
     }
   },
+  computed: {
+
+  },
   methods: {
+    openTab(url) {
+      window.open(url,'_blank');
+    }
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.overlap {
+.card-stack {
   width: 400px;
-  height: 500px;
+  height: 550px;
+  margin-left: 1rem;
+  margin-right: 1rem;
   display: flex;
-  align-items: center;
-  justify-content: center;
 }
-.overlap>div {
-  position: absolute;
-}
+
 .physical-information {
   width: 100%;
   display: flex;
@@ -137,6 +149,7 @@ export default {
 
 .features {
   margin-top: 2rem;
+  white-space: normal;
 }
 
 .tabs {
@@ -172,6 +185,8 @@ export default {
 .tab-content {
   width: calc(100% - 2rem);
   height: 10rem;
+  max-height: 10rem;
+  overflow-y: scroll;
   background: #FAFAFA;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
@@ -269,19 +284,19 @@ export default {
   margin-bottom: 1rem;
 }
 .info-box {
-  width: 2rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
   border-radius: 5px;
+  height: 13rem;
   border: 1px solid #EBEBEB;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-around;
   flex-direction: column;
   cursor: default;
 }
 .info-box div{
   color: #BBB;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
 }
 .info-box div:hover {
   color: #777;
@@ -310,7 +325,7 @@ export default {
   cursor: default;
 }
 [tooltip]::before {
-  z-index: 10;
+  z-index: 999;
   position: absolute;
   bottom: calc(150% - 5px);
   width: 0;
@@ -324,7 +339,7 @@ export default {
   visibility: hidden;
 }
 [tooltip]::after {
-  z-index: 5;
+  z-index: 999;
   position: absolute;
   content: attr(tooltip);
   bottom: 150%;
@@ -336,11 +351,15 @@ export default {
   color: white;
   font-size: 0.7rem;
   font-style: normal;
-  padding: 0.5rem;
+  padding: 0.3rem;
   visibility: hidden;
+  white-space: normal;
 }
 [tooltip]:hover:after,
 [tooltip]:hover:before {
     visibility: visible;
+}
+.expandable {
+  cursor: pointer;
 }
 </style>

@@ -1,0 +1,83 @@
+[
+	{
+	    "name": "Dwarf",
+	    "tagline": "Short, Stout And Can Take A Hit",
+	    "physical": {
+	      "height": "4-5 ft",
+	      "size": "Medium",
+	      "speed": "25 ft"
+	    }
+	},
+	{
+	    "name": "Elf",
+	    "tagline": "Full of themselves but oh so magical",
+	    "physical": {
+	      "height": "5-6 ft",
+	      "size": "Medium",
+	      "speed": "30 ft"
+	    }
+  	},
+  	{
+	    "name": "Halfling",
+	    "tagline": "Pack a lot into such a small package",
+	    "physical": {
+	      "height": "~3 ft",
+	      "size": "Small",
+	      "speed": "25 ft"
+		}
+  	},
+	  {
+	    "name": "Human",
+	    "tagline": "Boring honestly",
+	    "physical": {
+	      "height": "5-6 ft",
+	      "size": "Medium",
+	      "speed": "30 ft"
+	    }
+	  },
+	  {
+	    "name": "Dragonborn",
+	    "tagline": "RAWR! XD",
+	    "physical": {
+	      "height": "6+ ft",
+	      "size": "Medium",
+	      "speed": "30 ft"
+	    }
+	  },
+  {
+    "name": "Gnome",
+    "tagline": "You know, like from your garden",
+    "physical": {
+      "height": "3-4 ft",
+      "size": "Small",
+      "speed": "25 ft"
+    }
+  },
+  {
+    "name": "Half-Elf",
+    "tagline": "Filthy Mudbloods if you ask me",
+    "physical": {
+      "height": "5-6 ft",
+      "size": "Medium",
+      "speed": "30 ft"
+    }
+  },
+  {
+    "name": "Half-Orc",
+    "tagline": "Kinda Sexy",
+    "physical": {
+      "height": "5-6 ft",
+      "size": "Medium",
+      "speed": "30 ft"
+    }
+  },
+  {
+    "name": "Tiefling",
+    "tagline": "I forgot what these even are ",
+    "physical": {
+      "height": "5-6 ft",
+      "size": "Medium",
+      "speed": "30 ft"
+    }
+  }
+]
