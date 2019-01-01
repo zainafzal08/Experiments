@@ -57,9 +57,24 @@ main {
   border-radius: 1px;
   background-color: pink;
 }
-.content .actions {
+.content .subbar {
   width: 100%;
   height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.content .subbar .tags span{
+  border-radius: 5px;
+  font-size: 0.7rem;
+  color: white;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 0.1rem;
+  padding-bottom: 0.1rem;
+  background: pink;
+}
+.content .subbar .actions{
   display: flex;
   align-items: center;
   justify-content: flex-end;
