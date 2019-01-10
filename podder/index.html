@@ -9,7 +9,7 @@
 	</head>
 	<body>
 		<div class="title">
-				<svg style="width:64px;height:64px" viewBox="0 0 24 24" class="loaded">
+				<svg viewBox="0 0 24 24" class="loaded">
 					<!-- Torso -->
 					<path fill="#FB4B4E" d="M17,18.25V21.5H7V18.25C7,16.87 9.24,15.75 12,15.75C14.76,15.75 17,16.87 17,18.25" />
 					<!-- Arc 1 -->
@@ -19,11 +19,33 @@
 					<!-- Head -->
 					<path fill="#FB4B4E" d="M12,9.5A2.5,2.5 0 0,1 14.5,12A2.5,2.5 0 0,1 12,14.5A2.5,2.5 0 0,1 9.5,12A2.5,2.5 0 0,1 12,9.5Z"/>
 				</svg>
-				<input class="link-input" type="text" placeholder="rss feed link"></input>
+				<input id="link-input" class="link-input" type="text" placeholder="rss feed link"></input>
 		</div>
-		<div class="feed">
-			
-		</div>
+		<main>
+			<div id="feed" class="feed">
+
+			</div>
+			<div class="stats" id="stats">
+				<h2 id="title">?</h2>
+				<p> <b id="count">?</b> Episodes </p>
+				<p id="update-freq">?</p>
+				<p class="label"> <b id="ontime-rate-label">?</b> on time </p>
+				<div class="bar">
+					<div id="ontime-rate"></div>
+					<div id="ontime-rate-inverse"></div>
+				</div>
+				<p> Would take <b id="total-listen">?</b> To listen to it all</p>
+				<h2>Catch Up Calculator</h2>
+				<div class="cu-calculator">
+					<div class="input-container"><i>Start</i><input id="cu-start-input" type="text" value="1"></input></div>
+					<div class="input-container"><i>Rate</i><input id="cu-rate-input" type="text" value="2"></input></div>
+				</div>
+				<p> If you start on episode <span id="calc-start">?</span>
+					and listen to <span id="calc-rate">?</span> episodes a week
+					you could be up to date in </p>
+				<p><b id="calc-output">?</b></p>
+				
+			</div>
 		<script src="js/main.js"></script>
 	</body>
 </html>

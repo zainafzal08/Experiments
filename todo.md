@@ -1,7 +1,7 @@
 
 # Index page 
 
-add a ability to list features on the index page of experiments which gets rendered as a nice list on the sidebar for each app. 
+add the ability to chuck in a list of features in the config json for the index page. This can get rendered into a nice formatted list when the sidebar draw opens up describing a ap;lication. 
 
 # Podder
 
@@ -11,3 +11,5 @@ Also tally up each episode etc so you can say "will take 42h to listen to all" o
 Have the ability to link the site to someone else with a rss feed embedded in the url so it renders on click. 
 
 Add import options. 
+
+meaningufl error on bad link
