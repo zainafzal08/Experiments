@@ -1,0 +1,246 @@
+// Colors
+$red: #FB4B4E
+$black: #444
+$light-black: #777
+$grey: #EBEBEB
+$muted-grey: #BBB
+$light-grey: #FAFAFA
+
+$font-stack:    'Ubuntu', sans-serif
+$background: $light-grey
+$border-r: 10px
+$stroke-width: 2px
+
+// Mixins 
+=pad($up,$down,$left,$right,)
+    padding-left: $left
+    padding-right: $right
+    padding-top: $up
+    padding-bottom: $down
+
+=margin($up,$down,$left,$right,)
+    margin-left: $left
+    margin-right: $right
+    margin-top: $up
+    margin-bottom: $down
+
+// extendable elements
+%flex-center
+    display: flex
+    align-items: center
+    justify-content: center
+
+%flex-row
+    display: flex
+    align-items: center
+    justify-content: center
+    flex-direction: row
+
+%flex-col
+    display: flex
+    align-items: center
+    justify-content: center
+    flex-direction: column
+
+%flex-push-right
+    display: flex
+    align-items: center
+    justify-content: flex-end
+    flex-direction: row
+
+%flex-push-left
+    display: flex
+    align-items: center
+    justify-content: flex-start
+    flex-direction: row
+
+// Animations
+@keyframes flash
+    0%
+        fill: $background
+    50%
+        fill: $red
+    100%
+        fill: $background
+
+
+// elements 
+
+body
+    background: $background
+    font-family: $font-stack
+
+.title
+    @extend %flex-center
+    flex-direction: column
+    width: 100%
+    height: 300px
+
+    .link-input
+        width: 50%
+        margin-top: 1rem
+        +pad(0.1rem,0.1rem,1%,1%)
+        height: 2.2rem
+        font-size: 1rem
+        background: white
+        outline: none
+        border: $grey solid $stroke-width
+        border-radius: $border-r
+        font-family: $font-stack
+        color: $black
+    
+    .link-input:focus
+        border: $red solid $stroke-width
+
+.logo
+    margin-right: 1rem
+    width:150px
+    height:150px
+
+.logo 
+    .arc-1
+        fill: $red
+    .arc-2
+        fill: $red
+
+.loading
+    .arc-1
+        fill: $background
+        animation: flash 1.5s infinite
+    .arc-2
+        fill: $background
+        animation: flash 1.5s infinite
+        animation-delay: 0.5s
+
+.fade-enter-active, .fade-leave-active
+  transition: opacity 1s
+
+.fade-enter, .fade-leave-to
+  opacity: 0
+
+
+main
+    @extend %flex-row
+    align-items: flex-start
+    width: 100%
+    
+    .feed
+        min-height: 100vh
+        width: 80%
+    .stats
+        @extend %flex-col
+        width: 20%
+        
+        h2
+            text-align: left
+            width: 100%
+            color: $light-black
+            border-bottom: 2px solid $grey
+        p
+            text-align: left
+            width: 100%
+            color: $muted-grey
+            +margin(0.5rem,0.5rem,0px,0px)
+    .item
+        @extend %flex-row
+        width: 100%
+        min-height: 200px
+        .scratch
+            @extend %flex-push-right
+            width: 25%
+            height: 100%
+            color: $red
+            opacity: 0.9
+        .timeline
+            @extend %flex-col
+            justify-content: space-between
+            width: 64px
+            height: 100%
+            .tl
+                height: 40%
+                width: 5px
+                background: $red
+                border-bottom-left-radius: 5px
+                border-bottom-right-radius: 5px
+            .d
+                width: 10px 
+                height: 10px 
+                border-radius: 50%
+                background: $red
+            .bl
+                height: 40%
+                width: 5px
+                background: $red
+                border-top-left-radius: 5px
+                border-top-right-radius: 5px                
+        .details
+            @extend %flex-push-left
+            width: calc(100% - 25% - 64px)
+            height: 100%
+        
+.cu-calculator
+    @extend %flex-row
+    width: 100%
+
+    .input-container
+        @extend %flex-col
+        margin-bottom: 1rem
+
+    input
+        width: 80%
+        border: 2px solid $grey
+        +pad(0.2rem,0.2rem,0.5rem,0.5rem)
+        font-size: 1rem
+        color: $light-black
+        border-radius: 5px
+        background: none
+        outline: none
+        text-align: center
+    i
+        font-size: 0.8rem
+        color: $muted-grey
+        margin-bottom: 0.5rem
+
+.err
+    color: $red !important
+.bar
+    @extend %flex-row
+    width: 80%
+    margin-right: 20%
+    margin-bottom: 1rem
+    .data
+        background: #BBB
+        height: 5px
+        border-radius: 5px
+        border-top-left-radius: 5px
+        border-bottom-left-radius: 5px
+    .background
+        height: 5px
+        background: #EBEBEB
+        border-top-right-radius: 5px
+        border-bottom-right-radius:  5px
+
+.card
+    width: 80%
+    padding-left: 2.5%
+    padding-right: 2.5%
+    padding-bottom: 1rem
+    height: calc(100% - 2rem - 2%)
+    margin: 1rem
+    background: white
+    border-radius: 5px
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16)
+    .card-title
+        width: 100%
+        text-align: left
+        color: $black
+        font-size: 1.1rem
+        font-weight: 400
+        margin-bottom: 0.2rem
+    .card-tagline
+        width: 100%
+        font-size: 0.9rem
+        color: $muted-grey
+    p
+        color: $light-black
+        font-size: 0.9rem

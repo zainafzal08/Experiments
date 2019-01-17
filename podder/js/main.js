@@ -1,5 +1,3 @@
-let stats = null;
-
 function parseXML(s) {
     parser = new DOMParser();
     return parser.parseFromString(s,"text/xml");
@@ -9,40 +7,21 @@ function getRSSFeed(link) {
         .then(r=>r.text())
         .then(r=>parseXML(r))
 }
-function $(t,settings) {
-    const e = document.createElement(t);
-    if (!settings) return e ;
 
-    if (settings["className"]) e.className = settings["className"];
-    if (settings["innerHTML"]) e.innerHTML = settings["innerHTML"];
-    return e
-}
-function $g(i) {
-    return document.getElementById(i);
-}
-function renderFeed() {
-    let rssLink = document.getElementById("link-input").value;
-    let feed = document.getElementById("feed");
-    getRSSFeed(rssLink)
-    .then(r=>{
-        $g("title").innerText = r.getElementsByTagName("title")[0].innerHTML;
-        return r.getElementsByTagName("item");
-    })
-    .then(r=>Array(r.length).fill(1).map((x,i)=>r[i]))
-    .then(r=>{
-        r.map(e=>feed.appendChild(renderItem(e)));
-        stats = calculateStats(r);
-        renderStats(stats);
-        renderCu();
-        $g("stats").classList.add("visible");
-    })
+function expandForm(v,points) {
+    const results = []
+    for (point of points) {
+        results.push(Math.floor(v/point));
+        v = v % point;
+    }
+    results.push(v);
+    return results;  
 }
 
 function weeksToHuman(w) {
-    const MONTH = 4;
-    const YEAR = 52;
-    let years = Math.floor(w/YEAR); w = w % YEAR;
-    let months = Math.floor(w/MONTH); w = w % MONTH;
+    // [Weeks in a Year, Weeks in a Month]
+    const [years,months,weeks] = expandForm(w,[52,4]);
+
     if (years > 0)
         return `${years} years ${months} months and ${w.toPrecision(4)} weeks`
     else if (months > 0)
@@ -50,30 +29,20 @@ function weeksToHuman(w) {
     else 
         return `${w.toPrecision(4)} weeks`
 }
+
 function secondsToHuman(s) {
     const HOUR = 3600;
     const MINUTE = 60;
     const DAY = HOUR*24;
     const MONTH = DAY*30;
     const YEAR = DAY*356;
-    // TODO: this could be done better
-    let years = Math.floor(s / YEAR); s = s % YEAR;
-    let months = Math.floor(s / MONTH); s = s % MONTH;
-    let days = Math.floor(s / DAY); s = s % DAY;
-    let hours = Math.floor(s / HOUR); s = s % HOUR;
-    let minutes = Math.floor(s / MINUTE); s = s % MINUTE;
-    let seconds = s;
-    if (years > 0)
-        return `${years}y ${months}m ${days}d ${hours}h ${minutes}m ${seconds}s`
-    if (months > 0)
-        return `${months}m ${days}d ${hours}h ${minutes}m ${seconds}s`
-    if (days > 0)
-        return `${days}d ${hours}h ${minutes}m ${seconds}s`
-    if (hours > 0)
-        return `${hours}h ${minutes}m ${seconds}s`
-    if (minutes > 0)
-        return `${minutes}m ${seconds}s`
-    return `${seconds}s`
+    const points = [YEAR,MONTH,DAY,HOUR,MINUTE];
+    let breakdown = expandForm(s,points);
+    const postMap = [' years',' months',' days','h','m','s']
+    breakdown = breakdown.map((x,i)=>`${x}${postMap[i]}`)
+    breakdown.reverse()
+    let result = breakdown.reduce((a,v)=> parseInt(v.substr(0,v.length-1)) > 0 ? `${v} ${a}` : a,"");
+    return result.trim();
 }
 
 function toSeconds(x) {
@@ -81,20 +50,21 @@ function toSeconds(x) {
     if (x.length == 2) return x[0]*60+x[1]
     if (x.length == 3) return x[0]*3600+x[1]*60+x[2]
 }
+
 function calculateStats(items) {
-    let prev = new Date(get(items.pop(),"pubDate").innerHTML);
+    const updates = items.length;
     let curr = null;
     let diff = null;
     let totalListen = items.map(x=>get(x,"itunes:duration").innerHTML);
+    let prev = new Date(get(items.pop(),"pubDate").innerHTML);
     // durations are in HH:MM:SS (could use  a time library but rather as well flex my functional programming)
-    totalListen = totalListen
+    let totalListenTime = totalListen
         .map(x=>x.split(":"))
         .map(x=>x.map(y=>parseInt(y)))
         .map(x=>toSeconds(x))
         .reduce((a,c)=>a+c,0)
-    
+    totalListenTime = secondsToHuman(totalListenTime);
     const diffs = {};
-    const updates = items.length;
     while (items.length > 0) {
         curr = new Date(get(items.pop(),"pubDate").innerHTML);
         diff = Math.round(Math.abs(curr-prev)/1000/60/60/24)
@@ -103,60 +73,21 @@ function calculateStats(items) {
         prev = curr;
     }
     const sortedDiffs = Object.keys(diffs).sort((a,b)=>diffs[b]-diffs[a]);
-    const updateFrequency = sortedDiffs[0];
-    const misses = sortedDiffs.splice(1).reduce((a,v)=>v > updateFrequency ? a+diffs[v] : a,0)
+    const updateFreq = sortedDiffs[0];
+    const misses = sortedDiffs.splice(1).reduce((a,v)=>v > updateFreq ? a+diffs[v] : a,0)
+    const onTimeRate = (((updates-misses) / updates)*100).toFixed(1)
     return {
-        updates,
-        updateFrequency,
+        updateFreq,
         misses,
-        totalListen
+        totalListenTime,
+        onTimeRate,
+        updates
     }
 }
-
-// TODO: this is why vue is a babe honestly
-function renderStats(stats) {
-    const f = stats.updateFrequency;
-    let onTimeRate = (stats.updates-stats.misses) / stats.updates;
-    onTimeRate = (onTimeRate*100).toFixed(1) + "%";
-    $g("total-listen").innerText = secondsToHuman(stats.totalListen);
-    $g("count").innerText = stats.updates;
-    $g("update-freq").innerText = `Updates about every ${f === 1 ? 'day' : `${f} days`}`;
-    $g("ontime-rate-label").innerText = onTimeRate;
-    $g("ontime-rate").style.width = onTimeRate;
-    $g("ontime-rate-inverse").style.width = `calc(100% - ${onTimeRate})`;
-}
-function toLocalTime(d) {
-    d = new Date(d);
-    date = d.toDateString();
-    time = d.toLocaleTimeString('en-US');
-    time = time.replace(/(\d+):(\d+):(\d+)/,"$1:$2");
-    return `${time} ${date}`;
-}
-function get(e,field) {
-    return e.getElementsByTagName(field)[0];
+function htmlCollectionToArray(items) {
+    return new Array(items.length).fill(0).map((_,i)=>items[i]);
 }
 
-function renderItem(e) {
-    const container = $("div",{className: "item"});
-
-    const scratch = $("div",{className: "scratch"});
-    scratch.appendChild($("span",{
-        innerHTML: toLocalTime(get(e,"pubDate").innerHTML)
-    }));
-
-    const timeline = $("div",{className: "timeline"});
-    timeline.appendChild($("t"));
-    timeline.appendChild($("d"));
-    timeline.appendChild($("b"));
-
-    const details = $("div",{className: "details"});
-    details.appendChild($("div",{className: "card"}));
-    container.appendChild(scratch);
-    container.appendChild(timeline);
-    container.appendChild(details);
-
-    return container;
-}
 function cu_math(l_rate, r_rate, start_week, start_ep) {
     try {
         const p = (start_ep-l_rate*start_week)/(r_rate-l_rate);
@@ -167,42 +98,72 @@ function cu_math(l_rate, r_rate, start_week, start_ep) {
         return "Infinity Weeks! Episodes release faster or at the same rate as you listen to them"
     }
 }
-function cu_err(m) {
-    $g("calc-output").innerText = m;
-    $g("calc-output").classList.add("err");
+
+function get(e,field) {
+    return e.getElementsByTagName(field)[0];
 }
 
-function renderCu() {
-    if (!stats) return;
-    $g("calc-output").classList.remove("err");
-    const l_rate = parseInt($g("cu-rate-input").value);
-    const start_ep = parseInt($g("cu-start-input").value);
-    const r_rate = stats.updateFrequency/7;
-    const start_week = stats.updates;
-    $g("calc-start").innerText = start_ep;
-    $g("calc-rate").innerText = l_rate;
-    if (l_rate > 24*7){ cu_err("That's more then a episode every hour every day!"); return}
-    if (l_rate < 1){ cu_err("You gotta listen to at least 1 episode a week"); return}
-    if (start_ep < 1){ cu_err("How you gonna start at a episode before episode 1 mr.user"); return}
-    if (start_ep > stats.updates){ cu_err("How you gonna start at a episode after the latest episode mr.user"); return}    
-    $g("calc-output").innerText = cu_math(l_rate, r_rate, start_week, start_ep);
+function range(i) {
+    return new Array(i).fill(0).map((x,i)=>i);
 }
-
-class Handler {
-    constructor(f) {
-        this.f = f;
+var vm = new Vue({
+    el: '#app',
+    data: {
+        rssLink: "",
+        rssDoc: null,
+        status: "IDLE",
+        items: null,
+        stats: null,
+        title: null,
+        cuStart: 1,
+        cuRate: 2,
+        cuErr: false
+    },
+    computed: {
+        cuResult() {
+            if(!this.stats) return "?";
+            this.cuErr = false;
+            const l_rate = parseInt(this.cuRate);
+            const start_ep = parseInt(this.cuStart);
+            const r_rate = this.stats.updateFreq/7;
+            const start_week = this.stats.updates;
+            if (l_rate > 24*7) {
+                this.cuErr = true;
+                return "That's more then a episode every hour every day!";
+            }
+            if (l_rate < 1) {
+                this.cuErr = true;
+                return "You gotta listen to at least 1 episode a week";
+            }
+            if (start_ep < 1) {
+                this.cuErr = true;
+                return "How you gonna start at a episode before episode 1 mr.user";
+            }
+            if (start_ep > this.stats.updates){
+                this.cuErr = true;
+                return "How you gonna start at a episode after the latest episode mr.user";
+            }    
+            return cu_math(l_rate, r_rate, start_week, start_ep);
+        }
+    },
+    methods: {
+        loadFeed() {
+            this.status = "LOADING";
+            getRSSFeed(this.rssLink)
+            .then(r=>{
+                this.rssDoc = r;
+                const items = r.getElementsByTagName("item");
+                this.items = htmlCollectionToArray(items)
+                this.title = r.getElementsByTagName("title")[0].innerHTML;
+                this.stats = calculateStats(htmlCollectionToArray(items));
+                this.status = "COMPLETE";
+            })
+        },
+        get(e,field) {
+            return e.getElementsByTagName(field)[0].innerHTML;
+        },
+        clean(t) {
+            return t.replace(/]]>$/,"").replace("<![CDATA[","");
+        }
     }
-
-}
-window.onload = function () {
-
-    document.getElementById("link-input").addEventListener("change", x=>{
-        renderFeed();
-    })
-    document.getElementById("cu-rate-input").addEventListener("change", x=>{
-        renderCu();
-    })
-    document.getElementById("cu-start-input").addEventListener("change", x=>{
-        renderCu();
-    }) 
-}
+})

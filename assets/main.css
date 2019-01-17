@@ -119,21 +119,57 @@ main {
     transition: 1s;
 }
 
-.open {
-  margin-left: 0px;
-  transition: 1s;
-}
-
 .out-focus {
   width: calc(60% - 5px);
   transition: 1s;
   margin-left: 5px;
 }
 
+@media only screen and (max-width: 1150px) {
+  .sidebar {
+    width: calc(80% - 5px);
+    margin-right: 5px;
+    margin-left: -80%;
+    height: 100%;
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+    transition: 1s;
+  }
+  .out-focus {
+    width: calc(60% - 5px);
+    margin-right: -40%;
+    transition: 1s;
+    margin-left: 5px;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .sidebar {
+    width: calc(100% - 5px);
+    margin-right: 5px;
+    margin-left: -100%;
+    height: 100%;
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+    transition: 1s;
+  }
+  .out-focus {
+    width: calc(60% - 5px);
+    margin-right: calc(-60% - 5px);
+    opacity: 0;
+    transition: 1s;
+    margin-left: 5px;
+  }
+}
+
+.open {
+  margin-left: 0px;
+  transition: 1s;
+}
+
+
 .item {
 	background-color: pink;
-	width: 5vw;
-	height: 5vw;
+	width: 64px;
+	height: 64px;
 	border-radius: 50%;
 	position: absolute;
   transition: 1s ease;
@@ -147,8 +183,8 @@ main {
 }
 .item-center {
 	background-color: pink;
-	width: 8vw;
-	height: 8vw;
+	width: 100px;
+	height: 100px;
 	border-radius: 50%;
 	position: absolute;
 }
