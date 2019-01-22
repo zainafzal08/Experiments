@@ -125,7 +125,7 @@ var vm = new Vue({
             this.cuErr = false;
             const l_rate = parseInt(this.cuRate);
             const start_ep = parseInt(this.cuStart);
-            const r_rate = this.stats.updateFreq/7;
+            const r_rate = 7/this.stats.updateFreq;
             const start_week = this.stats.updates;
             if (l_rate > 24*7) {
                 this.cuErr = true;
