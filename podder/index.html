@@ -25,7 +25,7 @@
 			<main>
 				<div id="feed" class="feed">
 					<div class="item" v-for="(item,index) in items">
-						<div class="scratch">{{get(item,"pubDate")}}</div>
+						<div class="scratch">{{toLocalTime(get(item,"pubDate"))}}</div>
 						<div class="timeline">
 							<div class="tl"></div>
 							<div class="d"></div>
@@ -33,9 +33,14 @@
 						</div>
 						<div class="details">
 							<div class="card">
-								<h3 class="card-title">{{get(item,"title")}}</h3>
+								<div class="header">
+									<h3 class="card-title">{{get(item,"title")}}</h3>
+									<span class="mdi mdi-music-circle-outline" @click="listen(item)"></span>
+								</div>
 								<span class="card-tagline">{{get(item,"itunes:duration")}} long</span>
-								<div v-html="clean(get(item,'description'))">
+								
+								<div class="card-body" v-html="clean(get(item,'description'))">
+
 								</div>
 							</div>
 						</div>

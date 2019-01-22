@@ -4,7 +4,7 @@
   justify-content: center;
 }
 
-.bar, .cu-calculator, main .item, main {
+.card .header, .bar, .cu-calculator, main .item, main {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -132,7 +132,7 @@ main .stats p {
 }
 main .item {
   width: 100%;
-  min-height: 200px;
+  height: 200px;
 }
 main .item .scratch {
   width: 25%;
@@ -231,21 +231,39 @@ main .item .details {
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
 }
 .card .card-title {
-  width: 100%;
   text-align: left;
   color: #444;
   font-size: 1.1rem;
   font-weight: 400;
   margin-bottom: 0.2rem;
+  height: 10%;
 }
 .card .card-tagline {
   width: 100%;
   font-size: 0.9rem;
   color: #BBB;
+  height: 10%;
+}
+.card .card-body {
+  width: 100%;
+  height: 70%;
+  overflow: scroll;
 }
 .card p {
   color: #777;
   font-size: 0.9rem;
+}
+.card .header {
+  justify-content: space-between;
+}
+.card .header span {
+  font-size: 1.5rem;
+  color: #BBB;
+  margin-right: -2%;
+  cursor: pointer;
+}
+.card .header span:hover {
+  color: #FB4B4E;
 }
 
 /*# sourceMappingURL=main.css.map */

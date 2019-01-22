@@ -144,7 +144,7 @@ main
     .item
         @extend %flex-row
         width: 100%
-        min-height: 200px
+        height: 200px
         .scratch
             @extend %flex-push-right
             width: 25%
@@ -231,16 +231,31 @@ main
     border-radius: 5px
     box-shadow: 0 3px 6px rgba(0,0,0,0.16)
     .card-title
-        width: 100%
         text-align: left
         color: $black
         font-size: 1.1rem
         font-weight: 400
         margin-bottom: 0.2rem
+        height: 10%
     .card-tagline
         width: 100%
         font-size: 0.9rem
         color: $muted-grey
+        height: 10%
+    .card-body
+        width: 100%
+        height: 70%
+        overflow: scroll
     p
         color: $light-black
         font-size: 0.9rem
+    .header
+        @extend %flex-row
+        justify-content: space-between
+        span
+            font-size: 1.5rem
+            color: $muted-grey
+            margin-right: -2%
+            cursor: pointer
+        span:hover
+            color: $red

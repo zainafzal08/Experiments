@@ -164,6 +164,25 @@ var vm = new Vue({
         },
         clean(t) {
             return t.replace(/]]>$/,"").replace("<![CDATA[","");
+        },
+        toLocalTime(d) {
+            d = new Date(d);
+            date = d.toDateString();
+            time = d.toLocaleTimeString('en-US');
+            time = time.replace(/(\d+):(\d+):(\d+)/,"$1:$2");
+            return `${time} ${date}`;
+        },
+        listen(item) {
+            const e = item.getElementsByTagName("enclosure")[0]
+            const attrs = new Array(e.attributes.length).fill(0).map((x,i)=>e.attributes[i]);
+            const link = attrs.filter((x)=>x.name === "url")[0].value;
+            const fake = document.createElement("a");
+            fake.target = "_blank";
+            fake.href = link;
+            fake.style.display = "none";
+            document.body.appendChild(fake);
+            fake.click();
+            document.body.removeChild(fake);
         }
     }
 })
