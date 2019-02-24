@@ -1,0 +1,78 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+.timetable {
+  width: 90%;
+  margin: 5%;
+  border-radius: 15px;
+  border: 2px #EBEBEB solid;
+  padding-top: 2%;
+  padding-bottom: 2%;
+}
+.builder {
+  width: 90%;
+  margin: 5%;
+}
+.heading {
+  margin-bottom: 1rem;
+  text-align: center;
+}
+.color-input {
+  width: 40px;
+  height: 40px;
+  background-color: white;
+  border-radius: 50%;
+  border: 2px #EBEBEB solid;
+}
+.color-preview {
+  width: 25px;
+  height: 25px;
+  background-color: black;
+  border-radius: 50%;
+}
+.center-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.timetable-item {
+  margin-bottom: 1rem;
+}
+.hidden {
+  opacity: 0;
+  width:100%;
+  height:100%;
+  position: absolute;
+  cursor: pointer;
+  z-index:999
+}
+
+.tt-row{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+.time-col-heading {
+  width: 10%;
+  height: 5rem;
+}
+.day-col-heading {
+  width: 18%;
+  height: 5rem;
+}
+
+.time-col {
+  width: 10%;
+  height: 3.5rem;
+  display: flex;
+  align-items: flex-start;
+}
+.time-col span {
+  margin-left: 1.5rem;
+}
+.day-col {
+  width: 14%;
+  margin-right: 4%;
+  height: 3.5rem;
+}

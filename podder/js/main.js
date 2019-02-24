@@ -4,8 +4,14 @@ function parseXML(s) {
 }
 function getRSSFeed(link) {
     return fetch(link)
-        .then(r=>r.text())
-        .then(r=>parseXML(r))
+        .then(r=>{
+            if (!r.ok) return null;
+            return r.text();
+        })
+        .then(r=>{
+            if (!r) return new Promise((resolve)=>resolve(null));
+            return new Promise((resolve)=>resolve(parseXML(r)));
+        })
 }
 
 function expandForm(v,points) {
@@ -117,7 +123,8 @@ var vm = new Vue({
         title: null,
         cuStart: 1,
         cuRate: 2,
-        cuErr: false
+        cuErr: false,
+        error: ""
     },
     computed: {
         cuResult() {
@@ -151,6 +158,11 @@ var vm = new Vue({
             this.status = "LOADING";
             getRSSFeed(this.rssLink)
             .then(r=>{
+                if(!r) {
+                    this.error = "I couldn't access that feed!";
+                    this.status = "COMPLETE";
+                    return;
+                }
                 this.rssDoc = r;
                 const items = r.getElementsByTagName("item");
                 this.items = htmlCollectionToArray(items)

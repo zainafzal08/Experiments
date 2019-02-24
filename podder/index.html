@@ -23,6 +23,11 @@
 				<input v-on:keyup.enter="loadFeed" class="link-input" v-model="rssLink" type="text" placeholder="rss feed link"></input>
 			</div>
 			<main>
+				<div v-if="error" class="error">
+					<h1></h1>
+					<span>Show a nerd this</span>
+					<pre><code></code></pre>
+				</div>
 				<div id="feed" class="feed">
 					<div class="item" v-for="(item,index) in items">
 						<div class="scratch">{{toLocalTime(get(item,"pubDate"))}}</div>

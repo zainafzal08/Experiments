@@ -3,7 +3,123 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title>Stripes</title>
-		<link rel="stylesheet" href="main.css" type="text/css">
+		<style>
+body {
+    margin: 0;
+    padding: 0;
+    background-image: url("back.svg");
+    background-position: center;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100vh;
+    background: linear-gradient(124deg, #ff2400, #e81d1d, #e8b71d, #e3e81d, #1de840, #1ddde8, #2b1de8, #dd00f3, #dd00f3);
+    background-size: 1800% 1800%;
+    -webkit-animation: rainbow 9s ease infinite;
+    -z-animation: rainbow 18s ease infinite;
+    -o-animation: rainbow 18s ease infinite;
+      animation: rainbow 18s ease infinite;
+}
+h1,h2,h3,h4,h5,h6 {
+    width: 100%;
+    text-align: center;
+    color: white;
+    font-family: 'Quicksand', sans-serif;
+    border: 0px;
+    margin: 0px;
+}
+h1 {
+    font-size: 4rem;
+    font-weight: 500;
+}
+h3 {
+    font-size: 2rem;
+    font-weight: 100;
+}
+.center {
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.actions {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+.icon {
+    margin: calc(1rem + 5px);
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.label {
+	width: 64px;
+	text-align: center;
+	margin: calc(1rem + 5px);
+	margin-top: 0;
+    display: flex;
+    align-items: center;
+	justify-content: flex-start;
+	flex-direction: column;
+    cursor: pointer;
+	transition: 0.2s;
+    color: white;
+    font-family: 'Quicksand', sans-serif;
+}
+
+.icon i {
+    transition: 0.2s;
+    color: white;
+}
+
+.icon:hover {
+    margin: 1rem;
+    width: 74px;
+    height: 74px;
+}
+.icon:hover i {
+    font-size: 2rem;
+}
+
+/* https://codepen.io/nohoid/pen/kIfto */
+  
+  @-webkit-keyframes rainbow {
+      0%{background-position:0% 82%}
+      50%{background-position:100% 19%}
+      100%{background-position:0% 82%}
+  }
+  @-moz-keyframes rainbow {
+      0%{background-position:0% 82%}
+      50%{background-position:100% 19%}
+      100%{background-position:0% 82%}
+  }
+  @-o-keyframes rainbow {
+      0%{background-position:0% 82%}
+      50%{background-position:100% 19%}
+      100%{background-position:0% 82%}
+  }
+  @keyframes rainbow { 
+      0%{background-position:0% 82%}
+      50%{background-position:100% 19%}
+      100%{background-position:0% 82%}
+  }
+
+		</style>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
 		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -16,15 +132,26 @@
 			<br><br>
 			<div class="actions">
 				<div class="icon">
-					<i class="material-icons">favorite</i>
+					<a href="about-us"><i class="material-icons">favorite</i></a>
 				</div>
 				<div class="icon">
-					<i class="material-icons">favorite</i>
+					<a href="blog"><i class="material-icons">favorite</i></a>
 				</div>
 				<div class="icon">
-					<i class="material-icons">favorite</i>
+					<a href="members"><i class="material-icons">favorite</i></a>
 				</div>
 			</div>
+			<div class="actions">
+				<div class="label">
+					About
+				</div>
+				<div class="label">
+					Blog
+				</div>
+				<div class="label">
+					Members
+				</div>
+			</div>			
 		</div>
 	</body>
 </html>
