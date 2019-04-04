@@ -153,6 +153,20 @@ var vm = new Vue({
             return cu_math(l_rate, r_rate, start_week, start_ep);
         }
     },
+    mounted() {
+        let query = window.location.href.split('?')[1]
+        let params = {};
+        if (query) {
+            params = query.split('&')
+                .map(x=>x.split("="))
+                .reduce((acc,val)=>{acc[val[0]]=val[1]; return acc},{})
+        }
+        if (params["rss"]) {
+            this.rssLink = params["rss"]
+            this.loadFeed()
+        }
+
+    },
     methods: {
         loadFeed() {
             this.status = "LOADING";

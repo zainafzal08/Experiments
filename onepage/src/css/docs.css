@@ -1,0 +1,188 @@
+body {
+  background: #FAFAFA;
+  display: flex;
+  flex-direction: row;
+  margin: 0px;
+  font-family: 'Ubuntu', sans-serif;
+}
+/* #b24592, #f15f79 */
+nav {
+  width: calc(25% - 2rem);
+  border-right: 2px solid #EBEBEB;
+  max-height: 100vh;
+  overflow-y: scroll;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+@media screen and (max-width: 960px) {
+  nav {
+    display: none;
+  }
+}
+nav h1 {
+  margin-bottom: 0px;
+}
+nav sm {
+  font-size: 0.8rem;
+  color: #BBB;
+}
+nav h2 {
+  font-size: 1.3rem;
+  font-weight: 300;
+  color: #444;
+  cursor: pointer;
+}
+nav h2:hover {
+  color: #b24592;
+}
+nav h2.active {
+  color: #b24592;
+}
+nav h3 {
+  font-size: 1rem;
+  font-weight: 100;
+  margin-left: 2rem;
+  color: #777;
+  cursor: pointer;
+}
+nav h3:hover {
+  color: #f15f79;
+}
+nav h3.active {
+  color: #f15f79;
+}
+
+main {
+  width: calc(75% - 2px - 4rem);
+  max-height: calc(100vh - 4rem);
+  overflow-y: scroll;
+  padding: 2rem;
+}
+@media screen and (max-width: 960px) {
+  main {
+    width: calc(100% - 2px - 4rem);
+    max-height: calc(100vh - 4rem);
+    overflow-y: scroll;
+    padding: 2rem;
+  }
+}
+main h2 {
+  font-size: 2rem;
+  color: black;
+  font-weight: 400;
+  border-bottom: 2px solid #f15f79;
+  padding-bottom: 0.5rem;
+}
+main h3 {
+  font-size: 1.2rem;
+  color: #444444;
+  font-weight: 400;
+}
+main p {
+  font-size: 1rem;
+  color: #777777;
+  font-weight: 100;
+}
+main .cards {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+main .chat-log {
+  width: 300px;
+  height: 250px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+main li {
+  color: #777777;
+}
+main code {
+  color: #f15f79;
+  font-size: 1.1rem;
+}
+main cmds {
+  margin-left: 2rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  width: calc(100% - 2rem);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+}
+main cmds .speech-bubble {
+  width: 100%;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+}
+main cmds .speech-bubble.response {
+  width: 80%;
+  margin-left: 20%;
+}
+main cmds .speech-bubble .acc-img{
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-position: center;
+  background-size: cover;
+  background-image: url("../img/acc.png");
+  margin-right: 0.5rem;
+}
+main cmds .speech-bubble .hp-img{
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-position: center;
+  background-size: cover;
+  background-image: url("../img/profile.png");
+  margin-left: 0.5rem;
+}
+main cmds c {
+  color: #777;
+  background-color: rgba(235,235,235,0.5);
+  border-radius: 10px;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1.5rem;
+  width: 40%;
+}
+main cmds c hl{
+  color: #f15f79;
+}
+main cmds r {
+  color: #777;
+  background-color: rgba(255,192,203,0.4);
+  border-radius: 10px;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1.5rem;
+  width: 40%;
+}
+main cmds r hl{
+  color: #f15f79;
+}
+pre {
+  background-color: rgba(235,235,235,0.5);
+  border-radius: 10px;
+  width: 50%;
+  padding: 1rem;
+}
+main table {
+  width: 50%;
+  text-align: center;
+}
+main table th {
+  border-bottom: 2px solid #EBEBEB;
+  padding-bottom: 0.5rem;
+  color: #444;
+}
+main table td {
+  padding-bottom: 0.5rem;
+  padding-top: 0.5rem;
+  color: #777;
+}

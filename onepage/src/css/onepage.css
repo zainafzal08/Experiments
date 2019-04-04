@@ -1,0 +1,154 @@
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    font-family: 'Ubuntu', sans-serif;
+    background: #FAFAFA;
+}
+.container {
+    width: 800px;
+    height: 100vh;
+}
+.container h1 {
+    padding-bottom: 0.5rem;
+    padding-left: 1rem;
+    margin-bottom: 0.5rem;
+    border-bottom: 2px solid #f15f79;
+}
+.container sm {
+    margin-left: 1rem;
+    font-size: 1rem;
+    color: #BBB;
+}
+.container h2 {
+    margin-top: 0.5rem;
+    font-size: 1rem;
+    font-weight: 300;
+    color: #f15f79;
+    cursor: pointer;
+    margin-left: 1rem;
+    margin-bottom: 0.5rem;
+}
+.container .header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    flex-direction: row;
+}
+.container .header h2 {
+    width: 70%;
+}
+.container .header h2 i {
+    font-size: 0.8rem;
+    opacity: 0.8;
+}
+.container .header sm {
+    font-size: 0.8rem;
+    margin-top: 1rem;
+    margin-bottom: .5rem;
+}
+
+.container p {
+    font-size: 0.8rem;
+    margin-left: 1rem;
+    color: #777;
+}
+
+.container h3 {
+    font-size: 1rem;
+    font-weight: 100;
+    margin-left: 2rem;
+    color: #777;
+    cursor: pointer;
+}
+
+.underbar {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.icon {
+    font-size: 1.5rem;
+    color: #f15f79;
+    margin-right: 1rem;
+    opacity: 0.7;
+    cursor: pointer;
+}
+.icon:hover {
+    opacity: 1;
+}
+.push-up {
+    align-self: flex-start;
+}
+.container .hard-col {
+    width: 100%;
+    height: 850px;
+}
+.container .body {
+    width: 70%;
+    height: 100%;
+    margin-top: 2rem;
+}
+.container .sidebar {
+    width: 25%;
+    margin-left: 5%;
+    height: 100%;
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-content: center;
+    background-color: #f15f79;
+}
+.container .sidebar h5 {
+    font-size: 1rem;
+    color: white;
+    text-align: right;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid white;
+    padding-bottom: 0.5rem;
+}
+.container .sidebar p {
+    color: white;
+    text-align: right;
+}
+.container .sidebar i {
+    color: white;
+}
+.container ul {
+    font-size: 0.8rem;
+    color: #777;
+}
+.hard-col {
+    display: flex;
+    align-content: center;
+    flex-direction: row;
+}
+.item {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+.item i {
+    margin-left: 1rem;
+    font-size: 1.5rem;
+    opacity: 0.7;
+    margin-right: 1rem;
+}
+.item img {
+    opacity: 0.7;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    width: 24px;
+    height: 28px;
+}
+.sidebar .block {
+    margin-right: 1rem;
+}
