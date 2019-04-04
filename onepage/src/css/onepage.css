@@ -152,3 +152,7 @@ body {
 .sidebar .block {
     margin-right: 1rem;
 }
+.body h1 {
+    font-size: 1.1rem;
+    color: #444;
+}
