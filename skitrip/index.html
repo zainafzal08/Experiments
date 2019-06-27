@@ -19,23 +19,26 @@
 					<div class="icon">
 						<i :class="'mdi mdi-'+item.icon"></i>
           </div>
-          <div class="line-bottom"></div>
+          <div class="line-bottom" :class="{hidden: i === (items.length-1)}"></div>
 				</div>
 				<div class="right">
 					<div class="info">
             <h3> {{item.title}} </h3>
             <div class="row" v-if="item.type === 'travel'">
-              <div class="point">
+              <div class="point" @click="openMap(item.from.location)">
                 <div class="time">{{item.from.time}}</div>
                 <div class="date">{{item.from.date}}</div>
                 <div class="location">{{item.from.location}}</div>
               </div>
               <i class="mdi mdi-chevron-triple-right arrow"></i>
-              <div class="point">
+              <div class="point" @click="openMap(item.to.location)">
                 <div class="time">{{item.to.time}}</div>
                 <div class="date">{{item.to.date}}</div>
                 <div class="location">{{item.to.location}}</div>
               </div>
+            </div>
+            <div class="timing" v-if="item.type === 'event'">
+              <i class="mdi mdi-clock"></i> {{item.timing}}
             </div>
             <p v-if="item.type === 'event'">
               {{item.description}}

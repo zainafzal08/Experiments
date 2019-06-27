@@ -25,6 +25,7 @@ h4 {
     color: #777;
     text-align: center;
 }
+
 .timeline {
     width: calc(80% - 2rem);
     margin: 5% 10%;
@@ -38,6 +39,7 @@ h4 {
     display: flex;
     justify-content: space-between;
 }
+
 .checkpoint .left {
     width: 8rem;
     height: 100%;
@@ -46,6 +48,7 @@ h4 {
     justify-content: flex-end;
     align-items: center;
 }
+
 .checkpoint .icon {
     font-size: 2.2rem;
     height: 4rem;
@@ -57,6 +60,7 @@ h4 {
     border: 2px solid #858AE3;
     border-radius: 50%;
 }
+
 .checkpoint .right {
     width: calc(100% - 8rem);
     height: 100%
@@ -88,6 +92,8 @@ h4 {
 .checkpoint .point {
     display: flex;
     flex-direction: column;
+    cursor: pointer;
+    width: calc(50% - 8rem);
 }
 
 .checkpoint .time {
@@ -112,7 +118,10 @@ h4 {
     margin-bottom: 1.5rem;
     border-bottom: 1px solid #EBEBEB;
 }
-
+.info p {
+    margin-top: 2rem;
+    color: #777;
+}
 .line-top {
     width: 3px;
     margin-bottom: 1rem;
@@ -125,3 +134,124 @@ h4 {
     height: calc(50% - 3rem);
     background:  #858AE3;
 }
+.timing {
+    margin-top: 0px;
+    color: #858AE3;
+}
+.timing i {
+    font-size: 1.1rem;
+    margin-right: 1rem;
+}
+.hidden {
+    opacity: 0;
+}
+
+
+@media only screen and (max-width: 768px) {
+    h1 {
+        font-size: 2rem;
+    }
+    h4 {
+        font-size: 0.8rem;
+    }
+    .timeline {
+        width: calc(100% - 2rem);
+        padding: 0px;
+        margin: 0rem 1rem;
+        display: flex;
+        flex-direction: column;
+    }
+    .checkpoint {
+        height: 175px;
+    }
+
+    .checkpoint .point {
+        display: flex;
+        flex-direction: column;
+        cursor: pointer;
+        width: calc(50% - 2rem);
+    }
+
+    .checkpoint .left {
+        width: 2rem;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        align-items: center;
+    }
+    .checkpoint .right {
+        margin-left: 2rem;
+        width: calc(100% - 4rem);
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .checkpoint .icon {
+        font-size: 1.2rem;
+        height: 2rem;
+        width: 2rem;
+    }
+    .line-top {
+        width: 3px;
+        margin-bottom: 1rem;
+        height: calc(50% - 2rem);
+        background:  #858AE3;
+    }
+    .line-bottom {
+        width: 3px;
+        margin-top: 1rem;
+        height: calc(50% - 2rem);
+        background:  #858AE3;
+    }
+
+    .checkpoint .time {
+        font-size: 1rem;
+        color: #858AE3;
+        margin-bottom: 0px;
+    }
+    
+    .checkpoint .date {
+        margin-top: 0.1rem;
+        font-size: 0.7rem;
+        color: #777;
+        margin-bottom: 0.4rem;
+    }
+    .checkpoint .location {
+        font-size: 0.5rem;
+        color: #777;
+    }
+
+    .arrow {
+        font-size: 1rem;
+        color: #858AE3;
+    }
+
+    .checkpoint .info {
+        width: calc(100% - 1rem);
+        padding: 1rem 1rem;
+        margin-right: 0px;
+    }
+    .checkpoint .info h3 {
+        font-size: 1rem;
+        padding: 0rem;
+        padding-bottom: 0.4rem;
+        margin: 0px;
+        margin-bottom: 1rem;
+    }
+    .checkpoint .info p {
+        font-size: 0.6rem;
+        margin-top: 1rem;
+        color: #777;
+    }
+    .timing {
+        font-size: 0.6rem;
+        margin-top: 1rem;
+        color: #858AE3;
+    }
+    .timing i {
+        font-size: 1.1rem;
+        margin-right: 0.5rem;
+    }
+}  
