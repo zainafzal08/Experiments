@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>Ski Trip</title>
+        <link href="main.css" rel="stylesheet"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
+		<link href="https://cdn.materialdesignicons.com/3.6.95/css/materialdesignicons.min.css" rel="stylesheet">
+	</head>
+	<body>
+    <h1> Ski Trip! </h1>
+    <hr>
+		<h4> A rooting tooting good time from the 2nd of july to 7th of july 2019 </h4>
+		<div class="timeline" id="app">
+			<div class="checkpoint" v-for="(item,i) in items">
+				<div class="left">
+          <div class="line-top" v-if="i != 0"></div>
+					<div class="icon">
+						<i :class="'mdi mdi-'+item.icon"></i>
+          </div>
+          <div class="line-bottom"></div>
+				</div>
+				<div class="right">
+					<div class="info">
+            <h3> {{item.title}} </h3>
+            <div class="row" v-if="item.type === 'travel'">
+              <div class="point">
+                <div class="time">{{item.from.time}}</div>
+                <div class="date">{{item.from.date}}</div>
+                <div class="location">{{item.from.location}}</div>
+              </div>
+              <i class="mdi mdi-chevron-triple-right arrow"></i>
+              <div class="point">
+                <div class="time">{{item.to.time}}</div>
+                <div class="date">{{item.to.date}}</div>
+                <div class="location">{{item.to.location}}</div>
+              </div>
+            </div>
+            <p v-if="item.type === 'event'">
+              {{item.description}}
+            </p>
+					</div>
+				</div>
+      </div>
+    </div>
+    <script src="/podder/js/vue.js"></script>
+    <script src="main.js"></script>
+	</body>
+</html>

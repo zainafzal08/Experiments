@@ -1,0 +1,127 @@
+body {
+    background: #FAFAFA;
+    font-family: 'Quicksand';
+}
+
+h1 {
+    width: 100%;
+    text-align: center;
+    color: #444;
+    font-size: 3rem;
+    margin-bottom: 1.2rem;
+}
+hr {
+    width: 80%;
+    margin: 0% 10%;
+    outline: none;
+    border: none;
+    height: 5px;
+    border-radius: 5px;
+    background: #858AE3;
+}
+h4 {
+    margin: 1rem 0rem;
+    width: 100%;
+    color: #777;
+    text-align: center;
+}
+.timeline {
+    width: calc(80% - 2rem);
+    margin: 5% 10%;
+    padding: 1rem 1rem;
+    display: flex;
+    flex-direction: column;
+}
+.checkpoint {
+    width: 100%;
+    height: 250px;
+    display: flex;
+    justify-content: space-between;
+}
+.checkpoint .left {
+    width: 8rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+}
+.checkpoint .icon {
+    font-size: 2.2rem;
+    height: 4rem;
+    width: 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #858AE3;
+    border: 2px solid #858AE3;
+    border-radius: 50%;
+}
+.checkpoint .right {
+    width: calc(100% - 8rem);
+    height: 100%
+}
+
+.checkpoint .info {
+    width: calc(100% - 4rem);
+    height: calc(100% - 3rem);
+    margin: 1rem 0rem;
+    padding: 0.5rem 2rem;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+    color: #444;
+}
+
+.checkpoint .info:hover {
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
+
+.row {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.checkpoint .point {
+    display: flex;
+    flex-direction: column;
+}
+
+.checkpoint .time {
+    font-size: 2rem;
+    color: #858AE3;
+}
+.checkpoint .date {
+    margin-top: 0.5rem;
+    font-size: 0.8rem;
+    color: #777;
+}
+.checkpoint .location {
+    color: #777;
+}
+
+.arrow {
+    font-size: 4rem;
+    color: #858AE3;
+}
+.info h3 {
+    padding-bottom: 1rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid #EBEBEB;
+}
+
+.line-top {
+    width: 3px;
+    margin-bottom: 1rem;
+    height: calc(50% - 3rem);
+    background:  #858AE3;
+}
+.line-bottom {
+    width: 3px;
+    margin-top: 1rem;
+    height: calc(50% - 3rem);
+    background:  #858AE3;
+}
