@@ -28,7 +28,8 @@ const vm = new Vue({
           type: 'countdown',
           title: 'Time Left Until We Go!',
           icon: 'timer-sand-empty',
-          time: (new Date('July 2, 2019 7:00:00')).getTime(),
+          starttimestamp: (new Date('July 2, 2019 7:00:00')).getTime(),
+          endtimestamp: (new Date('July 2, 2019 7:00:00')).getTime(),
         },
         {
           id: 1,
@@ -216,17 +217,18 @@ const vm = new Vue({
           if (now > item.endtimestamp) return "done"
         },
         human(t) {
+          if (t === undefined) return "00:00:00:00"
           return secondsToHuman(t/1000);
         }
     },
     mounted() {
       this.items
         .filter(x => x.type === 'countdown')
-        .filter(x => x.time > Date.now())
+        .filter(x => x.starttimestamp > Date.now())
         .map(x=>{
           setInterval(()=>{
             const newTimers = {...this.timers}
-            newTimers[x.id] = x.time - Date.now()
+            newTimers[x.id] = x.starttimestamp - Date.now()
             this.timers = newTimers
           }, 500)
         })
