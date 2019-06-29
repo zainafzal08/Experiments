@@ -29,7 +29,17 @@
 				</div>
 				<div class="right">
 					<div class="info">
-            <h3> {{item.title}}</h3>
+            <div class="header-row">
+              <h3> {{item.title}}</h3>
+              <span v-if="getState(item) === 'on-going'" class="time-left">{{human(item.endtimestamp)}}</span>
+            </div>
+            <div :class="{progress: true, inactive: getState(item) !== 'on-going' }">
+              <div
+                v-if="getState(item) === 'on-going'"
+                class="bar"
+                :style="{width: progress(item)}"
+              ></div>
+            </div>
             <div class="row" v-if="item.type === 'travel'">
               <div class="point" @click="openMap(item.from.location)">
                 <div class="time">{{item.from.time}}</div>
@@ -52,7 +62,7 @@
               </p>
             </div>
             <div v-if="item.type === 'countdown'">
-              <h1 class="countdown-timer">{{human(timers[item.id])}}</h1>
+              <h1 class="countdown-timer">{{human(item.starttimestamp)}}</h1>
             </div>
 				  </div>
         </div>

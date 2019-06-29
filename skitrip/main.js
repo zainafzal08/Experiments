@@ -37,7 +37,7 @@ const vm = new Vue({
           title: 'Bus To Jindabyne',
           icon: 'bus',
           starttimestamp: (new Date('July 2, 2019 7:00:00')).getTime(),
-          endtimestamp: (new Date('July 2, 2019 13:45:00')).getTime(),
+          endtimestamp: (new Date('July 2, 2019 1:45:00')).getTime(),
           from: {
             time: '7:00 am',
             date: '2nd of July 2019',
@@ -217,20 +217,25 @@ const vm = new Vue({
           if (now > item.endtimestamp) return "done"
         },
         human(t) {
-          if (t === undefined) return "00:00:00:00"
+          const now = Date.now()
+          if (t === undefined || t <= now) return "00:00:00:00"
+          t = t - now
           return secondsToHuman(t/1000);
+        },
+        progress(item) {
+          const now = Date.now()
+          const dist = now - item.starttimestamp
+          const total = item.endtimestamp - item.starttimestamp
+          // will be too many decimal places but eh
+          const p = (dist/total)*100
+          return p + "%"
         }
     },
     mounted() {
-      this.items
-        .filter(x => x.type === 'countdown')
-        .filter(x => x.starttimestamp > Date.now())
-        .map(x=>{
-          setInterval(()=>{
-            const newTimers = {...this.timers}
-            newTimers[x.id] = x.starttimestamp - Date.now()
-            this.timers = newTimers
-          }, 500)
-        })
+      // Sorry vue gods
+      // This forces the entire page to rerender every 500ms
+      setInterval(() => {
+        this.items = [...this.items]
+      }, 500);
     }
   })
