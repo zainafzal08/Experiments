@@ -172,7 +172,7 @@ h4 {
     align-items: center;
     padding-top: 1rem;
 }
-.header-row h3 {
+.checkpoint .info .header-row h3 {
     width: auto;
     margin: 0px;
     border: none;
@@ -274,7 +274,13 @@ h4 {
         font-size: 1rem;
         color: #858AE3;
     }
-
+    .header-row {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 0rem;
+    }
     .checkpoint .info {
         width: calc(100% - 1rem);
         padding: 1rem 1rem;
