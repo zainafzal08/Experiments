@@ -37,7 +37,7 @@ const vm = new Vue({
           title: 'Bus To Jindabyne',
           icon: 'bus',
           starttimestamp: (new Date('July 2, 2019 7:00:00')).getTime(),
-          endtimestamp: (new Date('July 2, 2019 1:45:00')).getTime(),
+          endtimestamp: (new Date('July 2, 2019 13:45:00')).getTime(),
           from: {
             time: '7:00 am',
             date: '2nd of July 2019',
