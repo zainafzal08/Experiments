@@ -31,11 +31,11 @@ div {
     left: 0;
 }
 
-@media (min-width: 480px) {
+@media only screen and (max-width: 480px) {
     h1 {
-        font-size: 30px;
+        font-size: 25px;
     }
     p {
-        font-size: 20px;
+        font-size: 17px;
     } 
 }
