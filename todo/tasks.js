@@ -47,7 +47,7 @@ class Tasks {
         if (this.topicToTasks[topic] === undefined) {
             return [];
         }
-        return this.topicToTasks[topic];
+        return [...this.topicToTasks[topic]];
     }
 
     setTasksForTopic_(topic, tasks) {
