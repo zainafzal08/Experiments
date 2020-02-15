@@ -1,0 +1,65 @@
+body {
+    margin: 0;
+    background: #f9f9f9;
+    font-family: 'Rubik', sans-serif;
+    width: 100%;
+}
+
+@keyframes bounce {
+    0% {
+        transform: translate(0px, 20px);
+    }
+    50% {
+        transform: translate(0px, -20px);
+    }
+    100% {
+        transform: translate(0px, 20px);
+    }
+}
+
+.loading-container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    background: #f9f9f9;
+    align-items: center;
+    justify-content: center;
+    transition: .3s;
+    position: absolute;
+    z-index: 9999;
+}
+.loading-container.hidden {
+    opacity: 0;
+}
+.loading-circle {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    opacity: .8;
+    margin: 0 2px;
+    transform: translate(0px, 20px);
+}
+.loading-circle:nth-child(1) {
+    background: #2980b9;
+    animation: bounce 1.5s infinite ease;
+}
+.loading-circle:nth-child(2) {
+    background: #3b96ca;
+    animation: bounce 1.5s infinite ease;
+    animation-delay: .1s;
+}
+.loading-circle:nth-child(3) {
+    background: #4cabda;
+    animation: bounce 1.5s infinite ease;
+    animation-delay: .2s;
+}
+.loading-circle:nth-child(4) {
+    background: #5fc3ed;
+    animation: bounce 1.5s infinite ease;
+    animation-delay: .3s;
+}
+.loading-circle:nth-child(5) {
+    background: #6dd5fa;
+    animation: bounce 1.5s infinite ease;
+    animation-delay: .4s;
+}
