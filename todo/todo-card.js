@@ -62,6 +62,9 @@ class TodoCard extends LitElement {
         width: 100%;
         overflow-y: scroll;
       }
+      .items::-webkit-scrollbar {
+         display: none;
+      }
       .add-task {
         width: 100%;
         height: 60px;
