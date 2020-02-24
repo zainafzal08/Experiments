@@ -3,7 +3,13 @@ import { LitElement, html, css } from "https://unpkg.com/lit-element?module";
 import tasks from './tasks.js';
 
 class TodoListItem extends LitElement {
-
+  
+  constructor() {
+   super();
+   tasks.listen('task-change', () => {
+      this.downSync();
+   });
+  }
   static get properties() {
     return { 
       id: { type: String },
