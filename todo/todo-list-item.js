@@ -4,23 +4,16 @@ import tasks from './tasks.js';
 
 class TodoListItem extends LitElement {
   
-  constructor() {
-   super();
-   tasks.listen('task-change', () => {
-      this.downSync();
-   });
-  }
   static get properties() {
     return { 
       id: { type: String },
       title: { type: String },
       subtitle: { type: String },
-      checked: { type: Boolean, reflect: true, attribute: true },
+      checked: { type: Boolean },
     };
   }
   
   firstUpdated() {
-    this.downSync();
     this.shadowRoot
       .querySelector('#check')
       .addEventListener('click', () => {
@@ -31,13 +24,6 @@ class TodoListItem extends LitElement {
       .addEventListener('click', () => {
       this.delete();
     });
-  }
-
-  downSync() {
-    const {title, subtitle, checked} = tasks.getTask(this.id);
-    this.title = title;
-    this.subtitle = subtitle;
-    this.checked = checked;
   }
 
   upSync() {
@@ -122,7 +108,6 @@ class TodoListItem extends LitElement {
   }
 
   render() {
-    this.downSync();
     return html`
       <div class="side">
         <svg id="check" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">

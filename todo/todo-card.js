@@ -15,7 +15,7 @@ class TodoCard extends LitElement {
     super();
     this.id = '';
     this.items = [];
-    tasks.listen('task-change', () => {
+    tasks.listen('task-edit', () => {
       this.tasksChanged();
     });
   }
@@ -151,12 +151,18 @@ class TodoCard extends LitElement {
         <div id="title" contenteditable="true"></div>
       </div>
       <div class="items">
-        ${this.items.map(id => html`
+        ${this.items.map(id => {
+          const {title, subtitle, checked} = tasks.getTask(id);
+          return html`
           <todo-list-item
             id=${id}
+            title=${title}
+            subtitle=${subtitle}
+            ?checked=${checked}
           >
           </todo-list-item>
-        `)}
+        `;
+      })}
       </div>
     </div>
     <div class="add-task">
