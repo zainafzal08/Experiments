@@ -88,8 +88,15 @@
       const ZAIN_WIN = 1;
       const TIE = 2;
       const scores = [
-        ['13th April 2019', TIE],
-        ['13th April 2019', HUSS_WIN],
+        ['4th April 2019', ZAIN_WIN],
+        ['5th April 2019', ZAIN_WIN]
+        ['6th April 2019', ZAIN_WIN],
+        ['7th April 2019', ZAIN_WIN]
+        ['8th April 2019', HUSS_WIN],
+        ['9th April 2019', TIE],
+        ['10th April 2019', HUSS_WIN],
+        ['11th April 2019', HUSS_WIN],
+        ['12th April 2019', ZAIN_WIN],
         ['13th April 2019', ZAIN_WIN]
       ];
 
@@ -108,7 +115,7 @@
         root.innerHTML += `<div class="row">
           <div class="entry">${s[0]}</div>
           <div class="entry">${icon}${text}</div>
-        </div>`
+        </div>`;
       }
       document.querySelector('#zain').innerHTML += scores.filter(x => x[1] === ZAIN_WIN).length;
       document.querySelector('#huss').innerHTML += scores.filter(x => x[1] === HUSS_WIN).length;
