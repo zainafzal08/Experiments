@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>Chess</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
+		<link href="https://cdn.materialdesignicons.com/5.0.45/css/materialdesignicons.min.css" rel="stylesheet">
+    <style>
+      body {
+        background: #FAFAFA;
+        font-family: 'Quicksand';
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      h1 {
+        width: 100%;
+        text-align: center;
+        color: #444;
+        font-size: 3rem;
+        margin-bottom: 1.2rem;
+      }
+      hr {
+        width: 80%;
+        margin: 0% 10%;
+        outline: none;
+        border: none;
+        height: 5px;
+        border-radius: 5px;
+        background: #858AE3;
+      }
+      .scores {
+        margin-top: 32px;
+        width: 80%;
+      }
+      .row, .row-first {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #EBEBEB;
+        margin-bottom: 8px;
+      }
+      .row-first {
+        margin-bottom: 16px;
+        border-bottom: none;
+      }
+      .entry {
+        width: 50%;
+        font-size: 18px;
+        color: #999;
+        text-align: start;
+      }
+      i {
+        margin-right: 8px;
+      }
+      .heading {
+        color: #777;
+        font-weight: bold;
+      }
+      h4 i {
+        color: #777;
+      }
+      h4 span {
+        color: #858AE3;
+        margin: 16px;
+      }
+    </style>
+  </head>
+	<body>
+    <h1> Chess! </h1>
+    <hr>
+    <h4>
+      <span id="zain"><i class="mdi mdi-alpha-z-circle"></i></span>
+      <span id="huss"><i class="mdi mdi-alpha-h-circle"></i> </span>
+      <span id="tie"><i class="mdi mdi-drag-horizontal-variant"></i> </span>
+    </h4>
+		<div class="scores">
+      <div class="row-first">
+        <div class="entry heading">Date</div>
+        <div class="entry heading">Result</div>
+      </div>
+    </div>
+    <script>
+      const root = document.querySelector('.scores');
+      const HUSS_WIN = 0;
+      const ZAIN_WIN = 1;
+      const TIE = 2;
+      const scores = [
+        ['13th April 2019', TIE],
+        ['13th April 2019', HUSS_WIN],
+        ['13th April 2019', ZAIN_WIN]
+      ];
+
+      for (const s of scores) {
+        let icon, text;
+        if (s[1] === ZAIN_WIN) {
+          icon = `<i class="mdi mdi-alpha-z-circle"></i>`;
+          text = 'Zain Won';
+        } else if (s[1] === HUSS_WIN) {
+          icon = `<i class="mdi mdi-alpha-h-circle"></i>`;
+          text = 'Huss Won';
+        } else {
+          icon = `<i class="mdi mdi-drag-horizontal-variant"></i>`;
+          text = 'Tie';
+        }
+        root.innerHTML += `<div class="row">
+          <div class="entry">${s[0]}</div>
+          <div class="entry">${icon}${text}</div>
+        </div>`
+      }
+      document.querySelector('#zain').innerHTML += scores.filter(x => x[1] === ZAIN_WIN).length;
+      document.querySelector('#huss').innerHTML += scores.filter(x => x[1] === HUSS_WIN).length;
+      document.querySelector('#tie').innerHTML += scores.filter(x => x[1] === TIE).length;
+    </script>
+	</body>
+</html>
