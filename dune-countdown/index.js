@@ -19,7 +19,7 @@ function secondsToHuman(s) {
 }
 
 const output = document.getElementById('countdown');
-const target = moment('2020-12-13');
+const target = moment('2021-09-01');
 function tick() {
     output.innerText = secondsToHuman(target.diff(moment())/1000);
 }
