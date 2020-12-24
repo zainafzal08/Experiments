@@ -177,6 +177,7 @@ class AppView extends LitElement {
     // App View Implementation.
     addItem() {
       const text = this.shadowRoot.querySelector('#new-item').value;
+      if (text.length === 0) return;
       this.data.addItem({text});
       this.requestUpdate();
       this.shadowRoot.querySelector('#new-item').value = '';
