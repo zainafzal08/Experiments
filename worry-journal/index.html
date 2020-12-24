@@ -7,17 +7,25 @@
 <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link href="main.css" rel="stylesheet"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- load webcomponents bundle, which includes all the necessary polyfills -->
+  <!-- Load webcomponents bundle, which includes all the necessary polyfills -->
   <script src="https://unpkg.com/@webcomponents/webcomponentsjs@2.4.1/webcomponents-bundle.js"></script>
+  <!-- Dependencies -->
+  <script type="text/javascript" src="https://cdn.rawgit.com/ricmoo/aes-js/e27b99df/index.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.3.2/uuid.min.js" integrity="sha512-UNM1njAgOFUa74Z0bADwAq8gbTcqZC8Ej4xPSzpnh0l6KMevwvkBvbldF9uR++qKeJ+MOZHRjV1HZjoRvjDfNQ==" crossorigin="anonymous"></script>
   <script type="module" src="app-view.js"></script>
   <link rel="manifest" href="manifest.json">
-  <link rel="icon"  type="image/png" href="icon-32.png">
+  <link rel="icon" type="image/png" href="icon-144.png">
+  <style>
+    body {
+      margin: 0;
+    }
+  </style>
 </head>
 <body>
   <app-view></app-view>
   <script>
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('sw.js');
+      navigator.serviceWorker.register('sw.js', {scope: '.'});
     }
   </script>
 </body>
