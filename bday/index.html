@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>Chess</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <script src="../dune-countdown/particles.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Yellowtail&display=swap" rel="stylesheet">
+    <style>
+      body {
+        margin: 0;
+      }
+      main {
+        background: #9ED3E6;
+        width: 100vw;
+        height: 100vh;
+        display: grid;
+        place-items: center;
+        z-index: 2;
+      }
+      h1 {
+        color: #2689B4;
+        font-family: 'Yellowtail', cursive;
+        font-size: 6rem;
+        font-weight: 100;
+        z-index: 2;
+        text-shadow:  2px 2px white;
+      }
+      #particles {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: 1;
+      }
+    </style>
+  </head>
+	<body>
+    <main>
+      <h1> Happy Birthday Aayat! </h1>
+    </main>
+    <div id="particles"></div>
+    <script>
+      window.onload = function() {
+          particlesJS.load('particles', 'particles.json', () => {});
+      }
+    </script>
+	</body>
+</html>
