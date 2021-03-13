@@ -22,7 +22,7 @@ p {
     color: #999;
 }
 
-.container {
+.my-container {
     width: calc(100% - 64px);
     padding: 0 32px;
     display: grid;
@@ -31,23 +31,23 @@ p {
     margin-top: 48px;
     margin-bottom: 32px;
 }
-.container p {
+.my-container p {
     color: #444;
     text-align: left;
     margin: 0;
 }
-.container>div {
+.my-container>div {
     display: flex;
     height: 32px;
 }
-.container .color-box {
+.my-container .color-box {
     width: 32px;
     height: 32px;
     cursor: pointer;
     margin-right: 4px;
     opacity: .5;
 }
-.container .color-box.selected {
+.my-container .color-box.selected {
     opacity: 1;
     transform: scale(1.2);
 }
