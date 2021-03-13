@@ -1,4 +1,4 @@
-const selections = {};
+let selections = {};
 
 const COLORS = [
     '#127ba3', // Blue
@@ -30,14 +30,15 @@ function init() {
 
     for (const div of document.querySelectorAll('div')) {
         if (div.dataset.element === "color-picker") {
-            if (shareMode) {
+            if (shareMode && defaultValues[div.id]) {
                 const index = parseInt(defaultValues[div.id].split('-')[1]);
                 div.style.backgroundColor = COLORS[index];
-            } else {
+            } else if (!shareMode) {
                 renderColorPicker(div);
             }
         }
     }
+    selections = defaultValues;
 }
 
 function updateUrl() {
