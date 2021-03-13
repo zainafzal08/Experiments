@@ -23,10 +23,10 @@ p {
 }
 
 .my-container {
-    width: calc(100% - 64px);
-    padding: 0 32px;
+    width: calc(100% - 16px);
+    padding: 0 8px;
     display: grid;
-    grid-template-columns: 64px 300px;
+    grid-template-columns: auto;
     grid-gap: 16px;
     margin-top: 48px;
     margin-bottom: 32px;
