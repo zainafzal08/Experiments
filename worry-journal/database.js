@@ -1,5 +1,5 @@
 const CHECK_STRING = 'V4uXtP6j8q19elXY';
-const DATABASE_VERSION = 1.0;
+const DATABASE_VERSION = 1.1;
 const DEV = true;
 
 async function hashPassword(passwd) {
