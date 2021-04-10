@@ -151,7 +151,7 @@ class AppView extends LitElement {
         }
         
         .history .item .content {
-          width: 75%;
+          width: 85%;
           box-sizing: border-box;
           padding-left: 16px;
           padding-right: 8px;
