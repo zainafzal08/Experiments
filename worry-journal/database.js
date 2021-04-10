@@ -1,6 +1,6 @@
 const CHECK_STRING = 'V4uXtP6j8q19elXY';
 const DATABASE_VERSION = 1.1;
-const DEV = true;
+const DEV = false;
 
 async function hashPassword(passwd) {
     // We just need to convert the password into something aes can
