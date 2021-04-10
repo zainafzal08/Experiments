@@ -5,10 +5,13 @@ const ADD_ICON = html`
 <svg xmlns="http://www.w3.org/2000/svg" fill="var(--primary-color)" height="32" viewBox="0 0 24 24" width="32"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>`;
 
 const DELETE_ICON = html`
-<svg xmlns="http://www.w3.org/2000/svg" fill="var(--primary-color)" height="20" viewBox="0 0 24 24" width="20"><path d="M0 0h24v24H0z" fill="none"/><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>`;
+<svg xmlns="http://www.w3.org/2000/svg" fill="var(--local-color)" height="20" viewBox="0 0 24 24" width="20"><path d="M0 0h24v24H0z" fill="none"/><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>`;
+
+const RETORT_ICON = html`
+<svg xmlns='http://www.w3.org/2000/svg' fill="var(--local-color)" height="20" viewBox='0 0 512 512'><title>Chatbubbles</title><path d='M60.44 389.17c0 .07 0 .2-.08.38.03-.12.05-.25.08-.38zM439.9 405.6a26.77 26.77 0 01-9.59-2l-56.78-20.13-.42-.17a9.88 9.88 0 00-3.91-.76 10.32 10.32 0 00-3.62.66c-1.38.52-13.81 5.19-26.85 8.77-7.07 1.94-31.68 8.27-51.43 8.27-50.48 0-97.68-19.4-132.89-54.63A183.38 183.38 0 01100.3 215.1a175.9 175.9 0 014.06-37.58c8.79-40.62 32.07-77.57 65.55-104A194.76 194.76 0 01290.3 32c52.21 0 100.86 20 137 56.18 34.16 34.27 52.88 79.33 52.73 126.87a177.86 177.86 0 01-30.3 99.15l-.19.28-.74 1c-.17.23-.34.45-.5.68l-.15.27a21.63 21.63 0 00-1.08 2.09l15.74 55.94a26.42 26.42 0 011.12 7.11 24 24 0 01-24.03 24.03z'/><path d='M299.87 425.39a15.74 15.74 0 00-10.29-8.1c-5.78-1.53-12.52-1.27-17.67-1.65a201.78 201.78 0 01-128.82-58.75A199.21 199.21 0 0186.4 244.16C85 234.42 85 232 85 232a16 16 0 00-28-10.58s-7.88 8.58-11.6 17.19a162.09 162.09 0 0011 150.06C59 393 59 395 58.42 399.5c-2.73 14.11-7.51 39-10 51.91a24 24 0 008 22.92l.46.39A24.34 24.34 0 0072 480a23.42 23.42 0 009-1.79l53.51-20.65a8.05 8.05 0 015.72 0c21.07 7.84 43 12 63.78 12a176 176 0 0074.91-16.66c5.46-2.56 14-5.34 19-11.12a15 15 0 001.95-16.39z'/></svg>`;
 
 class AppView extends LitElement {
-    data = new Database();
+    data = new Database(() => this.requestUpdate());
 
     // Lit Element Implementation.
     static get properties() {
@@ -19,6 +22,9 @@ class AppView extends LitElement {
       return css`
         :host {
           width: 100vw;
+        }
+        p {
+          font-size: .8rem;
         }
         .page {
           width: 100%;
@@ -101,6 +107,7 @@ class AppView extends LitElement {
           background: #f1f1f1;
           border-radius: 9px;
           display: flex;
+          margin-bottom: 32px;
         }
         .journal .new-entry .action {
           width: 64px;
@@ -124,40 +131,77 @@ class AppView extends LitElement {
         }
         .history {
           width: 100%;
-          margin-top: 32px;
+          margin-bottom: 32px;
           height: calc(100vh - 274px);
           overflow: scroll;
         }
+
         .history .item {
           display: flex;
           flex-direction: column;
-          align-items: flex-end;
+          align-items: flex-start;
           margin-bottom: 16px;
-        }
-        .history .item .content {
           width: 100%;
+          --local-color: #BBB;
+        }
+        .history .item.retort {
+          margin-bottom: 8px;
+          --local-color: white;
+          align-items: flex-end;
+        }
+        
+        .history .item .content {
+          width: 75%;
           box-sizing: border-box;
           padding-left: 16px;
+          padding-right: 8px;
           min-height: 48px;
           display: flex;
           align-items: center;
           background: #f1f1f1;
           border-radius: 9px;
         }
+        .history .item.retort .content {
+          min-height: 32px;
+          background: var(--primary-color);
+          justify-content: space-between;
+        }
+
         .history .item .content .action {
-          width: 32px;
+          width: 28px;
           height: 100%;
           cursor: pointer;
         }
+        .history .item.retort .content .action {
+          width: 20px;
+          height: 20px;
+        }
+
         .history .item .content p {
           width: calc(100% - 56px);
           margin: 0;
           padding: 16px 24px 16px 0;
           color: #444;
         }
+        .history .item.retort .content p {
+          color: white;
+        }
+        
         .history .item .date {
           font-size: 10px;
+          color: #bbb;
+          padding-left: 3px;
+        }
+        .history .item.retort .date {
           color: var(--primary-color);
+          opacity: .6;
+        }
+
+        .retorts {
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-end;
         }
       `;
     }
@@ -183,9 +227,18 @@ class AppView extends LitElement {
       this.shadowRoot.querySelector('#new-item').value = '';
     }
 
+    addRetort(parentID) {
+      const text = window.prompt('What is your response to this worry?');
+      if (text.length === 0) return;
+      this.data.addRetort({parentID, text});
+    }
+
+    deleteRetort(retortId) {
+      this.data.removeRetort(retortId);
+    }
+
     deleteItem(id) {
       this.data.removeItem(id);
-      this.requestUpdate();
     }
 
     async setPassword() {
@@ -220,17 +273,38 @@ class AppView extends LitElement {
         `;
     }
 
+    renderRetort(retort) {
+      const formatter = new Intl.DateTimeFormat('en-AU', {dateStyle: 'full' });
+      const humanDate = formatter.format(new Date(retort.date));
+      return html`<div class="item retort">
+        <div class="content">
+          <p>${retort.text}</p>
+          <div class="action" @click=${() => this.deleteRetort(retort.id)}>
+            ${DELETE_ICON}
+          </div>
+        </div>
+        <p class="date">${humanDate}</p>
+      </div>`; 
+    }
+    
     renderItem(item) {
       const formatter = new Intl.DateTimeFormat('en-AU', {dateStyle: 'full' });
       const humanDate = formatter.format(new Date(item.date));
+      const retorts = this.data.getRetorts(item.id);
       return html`<div class="item">
         <div class="content">
           <p>${item.text}</p>
           <div class="action" @click=${() => this.deleteItem(item.id)}>
             ${DELETE_ICON}
           </div>
+          <div class="action" @click=${() => this.addRetort(item.id)}>
+            ${RETORT_ICON}
+          </div>
         </div>
         <p class="date">${humanDate}</p>
+        <div class="retorts">
+          ${retorts.map((retort) => this.renderRetort(retort))}
+        </div>
       </div>`;
     }
 
@@ -238,15 +312,15 @@ class AppView extends LitElement {
       return html`
       <div class="journal" @keydown=${(e) => e.key === 'Enter' && this.addItem()}>
         <h1>Your Worries</h1>
-        <div class="new-entry">
-          <input id="new-item"/>
-          <div class="action" @click=${() => this.addItem()}>
-            ${ADD_ICON}
-          </div>
-        </div>
         <div class="history">
           ${this.data.items.map(item => this.renderItem(item))}
         </div>
+        <div class="new-entry">
+        <input id="new-item"/>
+        <div class="action" @click=${() => this.addItem()}>
+          ${ADD_ICON}
+        </div>
+      </div>
       </div>
       `;
     }

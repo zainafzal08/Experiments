@@ -1,5 +1,6 @@
 const CHECK_STRING = 'V4uXtP6j8q19elXY';
 const DATABASE_VERSION = 1.0;
+const DEV = true;
 
 async function hashPassword(passwd) {
     // We just need to convert the password into something aes can
@@ -27,12 +28,17 @@ async function encryptString(s, passwd) {
 }
 
 export class Database {
-    constructor() {
+    constructor(onChange) {
         this.items = [];
-        this.passwd = null;
+        this._retorts = [];
+        this.passwd = DEV ? '1234' : null;
         this.encryptedState = localStorage.getItem('encrypted-state');
+        this.onChange = onChange;
         if (this.encryptedState) {
             this.encryptedState = JSON.parse(this.encryptedState);
+        }
+        if (this.encryptedState && DEV) {
+            this.decrypt(this.passwd);
         }
     }
 
@@ -44,19 +50,27 @@ export class Database {
         return this.encryptedState !== null;
     }
 
+    async decrypt(passwd) {
+        const {encryptedCheckString} = this.encryptedState;
+        const decryptedCheck = await decryptString(encryptedCheckString, passwd);
+        if (decryptedCheck !== CHECK_STRING) {
+            throw new DOMException(
+                'Invalid password for current encrypted state.',
+                'Invalid password');
+        }
+        const {encryptedItems, encryptedRetorts} = this.encryptedState;
+        this.items = JSON.parse(await decryptString(encryptedItems, passwd));
+        this._retorts = encryptedRetorts ? JSON.parse(await decryptString(encryptedRetorts, passwd)) : [];
+        this.onChange();
+    }
+
     async setPassword(passwd) {
         // Check if there is any data we can load.
         if (this.encryptedState) {
-            const {encryptedCheckString} = this.encryptedState;
-            const decryptedCheck = await decryptString(encryptedCheckString, passwd);
-            if (decryptedCheck !== CHECK_STRING) {
-                throw new DOMException(
-                    'Invalid password for current encrypted state.',
-                    'Invalid password');
-            }
-            const {encryptedItems} = this.encryptedState;
-            this.items = JSON.parse(await decryptString(encryptedItems, passwd));
+            await this.decrypt(passwd);
         }
+        // Decrypt would have raised a exception of the password was wrong, if we made it here
+        // we can trust the password.
         this.passwd = passwd;
         this.sync();
     }
@@ -93,6 +107,32 @@ export class Database {
     removeItem(id) {
         this.ensureDatabaseMutable();
         this.items = this.items.filter(i => i.id !== id);
+        this._retorts = this._retorts.filter(r => r.parentID !== id);
+        this.sync();
+    }
+
+    getRetorts(parentID) {
+        return this._retorts.filter(r => r.parentID === parentID);
+    }
+
+    addRetort(retort) {
+        if (!retort.parentID) {
+            throw new Error('Retort must include a parentID');
+        }
+        if(!this.items.find(item => item.id === retort.parentID)) {
+            throw new Error('Retort must include a valid parentID pointing to a existing item.');
+        }
+
+        this.ensureDatabaseMutable();
+        retort.id = uuid.v4();
+        retort.date = Date.now();
+        this._retorts.push(retort);
+        this.sync();
+    }
+    
+    removeRetort(id) {
+        this.ensureDatabaseMutable();
+        this._retorts = this._retorts.filter(i => i.id !== id);
         this.sync();
     }
 
@@ -100,11 +140,14 @@ export class Database {
         // TODO(): race condition handling.
         const encryptedCheckString = await encryptString(CHECK_STRING, this.passwd);
         const encryptedItems = await encryptString(JSON.stringify(this.items), this.passwd);
+        const encryptedRetorts = await encryptString(JSON.stringify(this._retorts), this.passwd);
         const serializableState = {
             version: DATABASE_VERSION,
             encryptedCheckString,
-            encryptedItems
+            encryptedItems,
+            encryptedRetorts
         };
         localStorage.setItem('encrypted-state', JSON.stringify(serializableState));
+        this.onChange();
     }
 }
