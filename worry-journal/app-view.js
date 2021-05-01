@@ -118,8 +118,7 @@ class AppView extends LitElement {
           z-index: 1;
         }
         main {
-          width: 500px;
-          padding: 0 32px;
+          width: min(500px, 100vw);
           height: 100vh;
           overflow: hidden;
         }
