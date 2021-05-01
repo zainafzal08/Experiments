@@ -2,4 +2,6 @@ body {
     background: #FAFAFA;
     font-family: 'Rubik', sans-serif;
     --primary-color: #F1838A;
+    --primary-light: #FFF2F3;
+    --primary-medium: #FFE7E8;
 }

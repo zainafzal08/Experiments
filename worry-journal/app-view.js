@@ -1,32 +1,62 @@
 import { LitElement, html, css } from "https://unpkg.com/lit-element?module";
 import {Database} from './database.js';
+import {WorryJournal} from './worry-journal.js';
+import {ThoughtDiary} from './thought-diary.js';
+import {ADD_ICON, JOURNAL_ICON, RETORT_ICON, ARROW_DOWN_ICON} from './icons.js';
 
-const ADD_ICON = html`
-<svg xmlns="http://www.w3.org/2000/svg" fill="var(--primary-color)" height="32" viewBox="0 0 24 24" width="32"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>`;
-
-const DELETE_ICON = html`
-<svg xmlns="http://www.w3.org/2000/svg" fill="var(--local-color)" height="20" viewBox="0 0 24 24" width="20"><path d="M0 0h24v24H0z" fill="none"/><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>`;
-
-const RETORT_ICON = html`
-<svg xmlns='http://www.w3.org/2000/svg' fill="var(--local-color)" height="20" viewBox='0 0 512 512'><title>Chatbubbles</title><path d='M60.44 389.17c0 .07 0 .2-.08.38.03-.12.05-.25.08-.38zM439.9 405.6a26.77 26.77 0 01-9.59-2l-56.78-20.13-.42-.17a9.88 9.88 0 00-3.91-.76 10.32 10.32 0 00-3.62.66c-1.38.52-13.81 5.19-26.85 8.77-7.07 1.94-31.68 8.27-51.43 8.27-50.48 0-97.68-19.4-132.89-54.63A183.38 183.38 0 01100.3 215.1a175.9 175.9 0 014.06-37.58c8.79-40.62 32.07-77.57 65.55-104A194.76 194.76 0 01290.3 32c52.21 0 100.86 20 137 56.18 34.16 34.27 52.88 79.33 52.73 126.87a177.86 177.86 0 01-30.3 99.15l-.19.28-.74 1c-.17.23-.34.45-.5.68l-.15.27a21.63 21.63 0 00-1.08 2.09l15.74 55.94a26.42 26.42 0 011.12 7.11 24 24 0 01-24.03 24.03z'/><path d='M299.87 425.39a15.74 15.74 0 00-10.29-8.1c-5.78-1.53-12.52-1.27-17.67-1.65a201.78 201.78 0 01-128.82-58.75A199.21 199.21 0 0186.4 244.16C85 234.42 85 232 85 232a16 16 0 00-28-10.58s-7.88 8.58-11.6 17.19a162.09 162.09 0 0011 150.06C59 393 59 395 58.42 399.5c-2.73 14.11-7.51 39-10 51.91a24 24 0 008 22.92l.46.39A24.34 24.34 0 0072 480a23.42 23.42 0 009-1.79l53.51-20.65a8.05 8.05 0 015.72 0c21.07 7.84 43 12 63.78 12a176 176 0 0074.91-16.66c5.46-2.56 14-5.34 19-11.12a15 15 0 001.95-16.39z'/></svg>`;
-
-const STORM_ICON = html`
-<svg xmlns='http://www.w3.org/2000/svg' fill="var(--local-color)" height="20" viewBox='0 0 512 512'><title>Thunderstorm</title><path d='M96 416a16 16 0 01-14.3-23.16l24-48a16 16 0 0128.62 14.32l-24 48A16 16 0 0196 416zM120 480a16 16 0 01-14.3-23.16l16-32a16 16 0 0128.62 14.32l-16 32A16 16 0 01120 480zM376 416a16 16 0 01-14.3-23.16l24-48a16 16 0 0128.62 14.32l-24 48A16 16 0 01376 416zM400 480a16 16 0 01-14.3-23.16l16-32a16 16 0 0128.62 14.32l-16 32A16 16 0 01400 480z'/><path d='M405.84 136.9a151.25 151.25 0 00-47.6-81.9 153 153 0 00-241.81 51.86C60.5 110.16 16 156.65 16 213.33 16 272.15 63.91 320 122.8 320h66.31l-12.89 77.37A16 16 0 00192 416h32v64a16 16 0 0029 9.3l80-112a16 16 0 00-13-25.3h-27.51l8-32h103.84a91.56 91.56 0 001.51-183.1z'/></svg>`;
+const PAGES = [
+  {
+    title: 'Thought Diary',
+    icon: JOURNAL_ICON,
+    component: ThoughtDiary
+  },
+  {
+    title: 'Worries',
+    icon: RETORT_ICON,
+    component: WorryJournal
+  }
+];
 
 class AppView extends LitElement {
     data = new Database(() => this.requestUpdate());
 
     // Lit Element Implementation.
     static get properties() {
-      return {};
+      return {
+        title: {
+          type: String
+        },
+        active: {
+          type: Number
+        },
+        drawerOpen: {
+          type: Boolean,
+          attribute: true,
+          reflect: true
+        },
+      };
     }
 
+    constructor() {
+      super();
+      this.active = 0;
+      this.title = PAGES[this.active].title;
+      this.currentlyEditing = null;
+    }
+
+    firstUpdated() {
+      this.addEventListener('edit-item', (e) => void this.editItem(e.detail));
+    }
+    
     static get styles() {
       return css`
         :host {
           width: 100vw;
           display: flex;
           justify-content: center;
+          --title-height: 80px;
+          --navbar-height: 50px;
+          --footer-height: 64px;
         }
         p {
           font-size: .8rem;
@@ -84,191 +114,250 @@ class AppView extends LitElement {
         .page svg {
           position: absolute;
           width: 50%;
-          opacity: .1;
+          opacity: .2;
           z-index: 1;
         }
-        .journal {
+        main {
           width: 500px;
           padding: 0 32px;
           height: 100vh;
-          display: flex;
-          align-items: center;
-          justify-content: flex-start;
-          flex-direction: column;
+          overflow: hidden;
         }
-        .journal h1 {
+        :host([draweropen]) .content {
+          opacity: .3;
+        }
+        :host([draweropen]) h1 {
+          opacity: .3;
+        }
+        main h1 {
           width: 100%;
-          margin-top: 32px 0;
-          height: 50px;
+          height: var(--title-height);
           text-align: center;
           color: var(--primary-color);
-          font-size: 2.4rem;
-        }
-        .journal .new-entry {
-          height: 64px;
-          width: 100%;
-          background: #f1f1f1;
-          border-radius: 9px;
-          display: flex;
-          margin-bottom: 32px;
-        }
-        .journal .new-entry .action {
-          width: 64px;
-          height: 100%;
-          display: grid;
-          place-items: center;
-          cursor: pointer;
-        }
-        .journal .new-entry input {
-          width: calc(100% - 72px);
-          margin-right: 8px;
-          height: 100%;
-          border: none;
-          background: none;
-          font-size: 1.4rem;
-          padding: 0 16px;
-          color: #444;
-        }
-        .journal .new-entry input:focus {
-          outline: none;
-        }
-        .history {
-          width: 100%;
-          margin-bottom: 32px;
-          height: calc(100vh - 210px);
-          overflow: scroll;
-        }
-
-        .history .item {
-          display: flex;
-          flex-direction: column;
-          align-items: flex-start;
-          margin-bottom: 16px;
-          width: 100%;
-          --local-color: #BBB;
-        }
-        .history .item.retort {
-          margin-bottom: 8px;
-          --local-color: white;
-          align-items: flex-end;
-        }
-        
-        .history .item .content {
-          width: 85%;
-          box-sizing: border-box;
-          padding-left: 16px;
-          padding-right: 8px;
-          min-height: 48px;
-          display: flex;
-          align-items: center;
-          background: #f1f1f1;
-          border-radius: 9px;
-        }
-        .history .item.retort .content {
-          min-height: 32px;
-          background: var(--primary-color);
-          justify-content: space-between;
-        }
-
-        .history .item .content .action {
-          width: 28px;
-          height: 100%;
-          cursor: pointer;
-        }
-        .history .item.retort .content .action {
-          width: 20px;
-          height: 20px;
-        }
-
-        .history .item .content p {
-          width: calc(100% - 56px);
+          font-size: 2rem;
           margin: 0;
-          padding: 16px 24px 16px 0;
-          color: #444;
+          box-sizing: border-box;
+          padding-top: 32px;
         }
-        .history .item.retort .content p {
-          color: white;
+        main .content {
+          height: calc(100% - var(--title-height) - var(--navbar-height))
         }
-        
-        .history .item .date {
-          font-size: 10px;
-          color: #bbb;
-          padding-left: 3px;
+        main .drawer {
+          background: var(--primary-color);
+          border-top-right-radius: 16px;
+          border-top-left-radius: 16px;
+          box-shadow: 0px -4px 12px 1px rgba(250, 209, 212, 0.87);
+          transition: transform ease-out .2s;
         }
-        .history .item.retort .date {
-          color: var(--primary-color);
-          opacity: .6;
+        :host([draweropen]) main .drawer {
+          transform: translateY(calc(-100% + var(--navbar-height)));
         }
-
-        .retorts {
+        .drawer nav {
           width: 100%;
+          height: var(--navbar-height);
           display: flex;
-          flex-direction: column;
-          align-items: flex-end;
-        }
-
-        .empty-state {
-          width: 100%;
-          height: 100%;
-          display: flex;
-          flex-direction: column;
           align-items: center;
           justify-content: center;
-          --local-color: #BBB;
+          position: relative;
         }
-        .empty-state p {
-          width: 350px;
-          margin: 0;
-          padding: 0;
-          color: #BBB;
-          text-align: center;
+        .drawer .link {
+          background: none;
+          border: none;
+          outline: none;
+          color: white;
+          cursor: pointer;
+          margin: 0 16px;
+          border-top: 2px solid #00000000;
+          border-bottom: 2px solid #00000000;
+          opacity: 0.7;
         }
-        .empty-state svg {
-          width: 124px;
-          height: 124px;
-          margin-bottom: 48px;
+        main .drawer .link[data-active="true"] {
+          opacity: 1;
         }
-        .empty-state p svg {
+        main .drawer .link:hover {
+          opacity: 1;
+          border-bottom: 2px solid #FFFFFF;
+        }
+        .toggle {
+          background: none;
+          border: none;
+          outline: none;
+          position: absolute;
+          right: 14px;
+          top: 14px;
+          color: white;
+          cursor: pointer;
+          opacity: 0.8;
+        }
+        .toggle:hover {
+          opacity: 1;
+        }
+        .toggle svg {
+          height: 24px;
+        }
+        .scrollable {
+          width: 100%;
+          max-height: calc(90vh - var(--navbar-height) - var(--footer-height));
+          overflow: scroll;
+        }
+        .fields {
+          display: flex;
+          flex-direction: column;
+          box-sizing: border-box;
+          padding: 16px 24px;
+          pading-top: 0;
+          width: 100%;
+        }
+        .fields label {
+          color: white;
+          opacity: .8;
+          padding: 16px 0 8px 0;
+        }
+        .fields textarea {
+          resize: none;
+          background: rgba(255, 255, 255, .2);
+          height: 64px;
+          border-radius: 12px;
+          border: none;
+          font-family: 'Rubik', sans-serif;
+          color: rgba(255, 255, 255, .8);
+          box-sizing: border-box;
+          padding: 8px;
+        }
+        .fields textarea:focus {
+          outline: none;
+          color: rgba(255, 255, 255, 1);
+          background: rgba(255, 255, 255, .3);
+        }
+        .footer {
+          height: var(--footer-height);
+          width: 100%;
+          display: grid;
+          place-items: center;
+        }
+        .footer button {
+          width: 80%;
+          height: 32px;
+          border-radius: 8px;
+          background: rgba(255, 255, 255, .3);
+          color: white;
+          border: none;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+        }
+        .footer button svg {
           width: 16px;
           height: 16px;
-          margin-bottom: 0;
+        }
+        .footer button:hover {
+          background: rgba(255, 255, 255, .4);
         }
       `;
     }
-  
+    
+    renderNavItem(index, page) {
+      return html`
+        <button @click=${() => this.navigate(index)} data-active=${index === this.active} class="link">
+          ${page.icon}
+        </button>`
+    }
+
     render() {
         if (this.data.hasState() && !this.data.hasPassword()) {
           return this.passwordPrompt('Worry Journal', 'Your journal is locked, please enter the password to unlock.');
         } else if (!this.data.hasState() && !this.data.hasPassword()) {
           return this.passwordPrompt(
             'Welcome to Worry Journal',
-            'A simple app to help you jot down all your worries. To begin please set a password for your journal.');
+            'A simple app to help you with your worries. To begin please set a password for your journal.');
         }
-
-        return this.renderJournal();
+        const page = PAGES[this.active];
+        const content = new page.component();
+        const fields = content.getFieldList();
+        content.data = this.data;
+        return html`
+          <main>
+            <h1>${this.title}</h1>
+            <div class="content">
+              ${content}
+            </div>
+            <div class="drawer">
+              <nav>
+                ${PAGES.map((index, page) => this.renderNavItem(page, index))}
+                <button class="toggle" @click=${() => this.toggleDrawer()}>
+                  ${ this.drawerOpen ? ARROW_DOWN_ICON : ADD_ICON }
+                </button>
+              </nav>
+              <div class="scrollable">
+                <div class="fields">
+                  ${fields.map(field => this.renderField(field))}
+                </div>
+                <div class="footer">
+                  <button @click=${() => this.addItem(content, fields)}>${ADD_ICON} Add</button>
+                </footer>
+              </div>
+            </div>
+          </main>`
+          ;
     }
 
     // App View Implementation.
-    addItem() {
-      const text = this.shadowRoot.querySelector('#new-item').value;
-      if (text.length === 0) return;
-      this.data.addItem({text});
-      this.requestUpdate();
-      this.shadowRoot.querySelector('#new-item').value = '';
+    editItem(fields) {
+      for (const field of Object.keys(fields)) {
+        const e = this.shadowRoot.getElementById(field);
+        if (!e) {
+          continue;
+        }
+        e.value = fields[field];
+      }
+      this.currentFocusedItem = fields;
+      this.drawerOpen = true;
     }
 
-    addRetort(parentID) {
-      const text = window.prompt('What is your response to this worry?');
-      if (text.length === 0) return;
-      this.data.addRetort({parentID, text});
+    addItem(component, fields) {
+      const values = this.currentFocusedItem || {};
+      for (const field of fields) {
+        const e = this.shadowRoot.getElementById(field.id);
+        if (!e) {
+          continue;
+        }
+        values[field.id] = e.value;
+      }
+      component.addItem(values);
+      this.drawerOpen = false;
+      this.clearDrawer();
     }
 
-    deleteRetort(retortId) {
-      this.data.removeRetort(retortId);
+    renderField(field) {
+      if (field.type === 'textarea') {
+        return html`
+          <label>${field.label}</label>
+          <textarea id=${field.id}></textarea>
+        `;
+      } else {
+        throw new Error(`No such field type '${field.type}'`);
+      }
     }
 
-    deleteItem(id) {
-      this.data.removeItem(id);
+    clearDrawer() {
+      for (const e of this.shadowRoot.querySelectorAll('textarea')) {
+        e.value = '';
+      }
+      this.currentFocusedItem = null;
+    }
+
+    toggleDrawer() {
+      this.drawerOpen = !this.drawerOpen;
+      if (this.drawerOpen === false && this.currentFocusedItem) {
+        this.clearDrawer();
+        this.currentFocusedItem = null;
+      }
+    }
+
+    navigate(newIndex) {
+      this.active = newIndex;
+      this.title = PAGES[this.active].title;
     }
 
     async setPassword() {
@@ -300,71 +389,6 @@ class AppView extends LitElement {
             <path d="M53.6001 23.8668H50.6668V18.0001C50.6668 9.90411 44.0961 3.33344 36.0001 3.33344C27.9041 3.33344 21.3334 9.90411 21.3334 18.0001V23.8668H18.4001C15.1734 23.8668 12.5334 26.5068 12.5334 29.7334V59.0668C12.5334 62.2935 15.1734 64.9335 18.4001 64.9335H53.6001C56.8268 64.9335 59.4668 62.2935 59.4668 59.0668V29.7334C59.4668 26.5068 56.8268 23.8668 53.6001 23.8668ZM36.0001 50.2668C32.7735 50.2668 30.1335 47.6268 30.1335 44.4001C30.1335 41.1735 32.7735 38.5334 36.0001 38.5334C39.2268 38.5334 41.8668 41.1735 41.8668 44.4001C41.8668 47.6268 39.2268 50.2668 36.0001 50.2668ZM45.0935 23.8668H26.9068V18.0001C26.9068 12.9841 30.9841 8.90678 36.0001 8.90678C41.0161 8.90678 45.0935 12.9841 45.0935 18.0001V23.8668Z" fill="white" fill-opacity="0.4"/>
           </svg>
         </div>
-      `;
-    }
-
-    renderRetort(retort) {
-      const formatter = new Intl.DateTimeFormat('en-AU', {dateStyle: 'full' });
-      const humanDate = formatter.format(new Date(retort.date));
-      return html`<div class="item retort">
-        <div class="content">
-          <p>${retort.text}</p>
-          <div class="action" @click=${() => this.deleteRetort(retort.id)}>
-            ${DELETE_ICON}
-          </div>
-        </div>
-        <p class="date">${humanDate}</p>
-      </div>`; 
-    }
-    
-    renderItem(item) {
-      const formatter = new Intl.DateTimeFormat('en-AU', {dateStyle: 'full' });
-      const humanDate = formatter.format(new Date(item.date));
-      const retorts = this.data.getRetorts(item.id);
-      return html`<div class="item">
-        <div class="content">
-          <p>${item.text}</p>
-          <div class="action" @click=${() => this.deleteItem(item.id)}>
-            ${DELETE_ICON}
-          </div>
-          <div class="action" @click=${() => this.addRetort(item.id)}>
-            ${RETORT_ICON}
-          </div>
-        </div>
-        <p class="date">${humanDate}</p>
-        <div class="retorts">
-          ${retorts.map((retort) => this.renderRetort(retort))}
-        </div>
-      </div>`;
-    }
-
-    renderEmptyState() {
-      return html`
-        <div class="empty-state">
-          ${STORM_ICON}
-          <p>
-            Sometimes the mind can feel stormy. Take a breath, jot down your worry
-            or insecurity, and let it go. You can use the ${RETORT_ICON} button later
-            to rebutt your worry.
-          </p>
-        </div>`;
-    }
-
-    renderJournal() {
-      return html`
-      <div class="journal" @keydown=${(e) => e.key === 'Enter' && this.addItem()}>
-        <h1>Your Worries</h1>
-        <div class="history">
-          ${this.data.items.map(item => this.renderItem(item))}
-          ${this.data.items.length === 0 ? this.renderEmptyState() : ''}
-        </div>
-        <div class="new-entry">
-        <input id="new-item"/>
-        <div class="action" @click=${() => this.addItem()}>
-          ${ADD_ICON}
-        </div>
-      </div>
-      </div>
       `;
     }
   }

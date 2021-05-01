@@ -1,6 +1,24 @@
 const CHECK_STRING = 'V4uXtP6j8q19elXY';
-const DATABASE_VERSION = 1.1;
-const DEV = false;
+const DATABASE_VERSION = 1.2;
+
+function extractFromEncryptedState(key, encryptedState) {
+    if (!encryptedState) {
+        throw new Error(`No such field "${key}" in encrypted state.`);
+    }
+    if (key === 'encryptedWorries' && !encryptedState.encryptedWorries) {
+        // 1.1 -> 1.2 upgrade handling.
+        return encryptedState.encryptedItems;
+    }
+    return encryptedState[key];
+}
+
+function getFlags() {
+    const host = location.host.split(':')[0];
+    if ( host !== "127.0.0.1" && host !== "localhost" ) {
+        return new Map();
+    }
+    return new URL(location.href).searchParams || new Map();
+}
 
 async function hashPassword(passwd) {
     // We just need to convert the password into something aes can
@@ -28,18 +46,24 @@ async function encryptString(s, passwd) {
 }
 
 export class Database {
-    constructor(onChange) {
-        this.items = [];
+    constructor() {
+        this.worries = [];
+        this.thoughts = [];
         this._retorts = [];
-        this.passwd = DEV ? '1234' : null;
+        this.passwd = getFlags().has('skipLogin') ? '1234' : null;
         this.encryptedState = localStorage.getItem('encrypted-state');
-        this.onChange = onChange;
+        this.readyResolver = null;
+        this.onReadyListeners = [];
         if (this.encryptedState) {
             this.encryptedState = JSON.parse(this.encryptedState);
         }
-        if (this.encryptedState && DEV) {
+        if (this.encryptedState && getFlags().has('skipLogin')) {
             this.decrypt(this.passwd);
         }
+    }
+    
+    onReady(callback) {
+        this.onReadyListeners.push(callback);
     }
 
     hasPassword() {
@@ -58,10 +82,13 @@ export class Database {
                 'Invalid password for current encrypted state.',
                 'Invalid password');
         }
-        const {encryptedItems, encryptedRetorts} = this.encryptedState;
-        this.items = JSON.parse(await decryptString(encryptedItems, passwd));
+        const encryptedWorries = extractFromEncryptedState('encryptedWorries', this.encryptedState);
+        const encryptedThoughts = extractFromEncryptedState('encryptedThoughts', this.encryptedState);
+        const encryptedRetorts = extractFromEncryptedState('encryptedRetorts', this.encryptedState);
+        this.worries = JSON.parse(await decryptString(encryptedWorries, passwd));
+        this.thoughts = encryptedThoughts ? JSON.parse(await decryptString(encryptedThoughts, passwd)) : [];
         this._retorts = encryptedRetorts ? JSON.parse(await decryptString(encryptedRetorts, passwd)) : [];
-        this.onChange();
+        this.onReadyListeners.map(l => l());
     }
 
     async setPassword(passwd) {
@@ -83,30 +110,63 @@ export class Database {
         }
     }
 
-    updateItem(id, newItem) {
+    updateWorryItem(id, newItem) {
         this.ensureDatabaseMutable();
-        const itemIndex = this.items.findIndex(i => i.id === id);
+        const itemIndex = this.worries.findIndex(i => i.id === id);
         if (itemIndex < 0) {
-            throw Error('No item found with supplied id.');
+            throw Error('No worry found with supplied id.');
         }
-        this.items[itemIndex] = {
-            ...this.items[itemIndex],
+        this.worries[itemIndex] = {
+            ...this.worries[itemIndex],
             ...newItem
         };
         this.sync();
     }
 
-    addItem(item) {
+    addWorryItem(item) {
         this.ensureDatabaseMutable();
         item.id = uuid.v4();
         item.date = Date.now();
-        this.items.push(item);
+        this.worries.push(item);
         this.sync();
     }
 
-    removeItem(id) {
+    removeWorryItem(id) {
         this.ensureDatabaseMutable();
-        this.items = this.items.filter(i => i.id !== id);
+        this.worries = this.worries.filter(i => i.id !== id);
+        this._retorts = this._retorts.filter(r => r.parentID !== id);
+        this.sync();
+    }
+
+    updateThoughtDiaryItem(item) {
+        this.ensureDatabaseMutable();
+        if (item.id) {
+            const thoughtIndex = this.thoughts.findIndex(i => i.id === item.id);
+            if (thoughtIndex < 0) {
+                throw Error('No thought found with supplied id.');
+            }
+            this.thoughts[thoughtIndex] = {
+                ...this.thoughts[thoughtIndex],
+                ...item
+            };
+        } else {
+            item.id = uuid.v4();
+            item.date = Date.now();
+            this.thoughts.push(item);
+        }
+        this.sync();
+    }
+
+    removeThoughtDiaryItem(thoughtId) {
+        this.ensureDatabaseMutable();
+        this.thoughts = this.thoughts.filter(i => i.id !== thoughtId);
+        this.sync();
+    }
+
+
+    removeWorryItem(id) {
+        this.ensureDatabaseMutable();
+        this.worries = this.worries.filter(i => i.id !== id);
         this._retorts = this._retorts.filter(r => r.parentID !== id);
         this.sync();
     }
@@ -119,8 +179,8 @@ export class Database {
         if (!retort.parentID) {
             throw new Error('Retort must include a parentID');
         }
-        if(!this.items.find(item => item.id === retort.parentID)) {
-            throw new Error('Retort must include a valid parentID pointing to a existing item.');
+        if(!this.worries.find(item => item.id === retort.parentID)) {
+            throw new Error('Retort must include a valid parentID pointing to a existing worry item.');
         }
 
         this.ensureDatabaseMutable();
@@ -139,15 +199,16 @@ export class Database {
     async sync() {
         // TODO(): race condition handling.
         const encryptedCheckString = await encryptString(CHECK_STRING, this.passwd);
-        const encryptedItems = await encryptString(JSON.stringify(this.items), this.passwd);
+        const encryptedWorries = await encryptString(JSON.stringify(this.worries), this.passwd);
+        const encryptedThoughts = await encryptString(JSON.stringify(this.thoughts), this.passwd);
         const encryptedRetorts = await encryptString(JSON.stringify(this._retorts), this.passwd);
         const serializableState = {
             version: DATABASE_VERSION,
             encryptedCheckString,
-            encryptedItems,
+            encryptedWorries,
+            encryptedThoughts,
             encryptedRetorts
         };
         localStorage.setItem('encrypted-state', JSON.stringify(serializableState));
-        this.onChange();
     }
 }
