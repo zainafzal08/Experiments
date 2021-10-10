@@ -56,4 +56,7 @@ button:active {
     background: #EBEBEB;
     border-radius: 8px;
     margin: 24px 0;
+    color: #444;
+    font-size: 2.5rem;
+    font-family: 'Andada Pro', serif;
 }
