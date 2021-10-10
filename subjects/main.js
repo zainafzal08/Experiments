@@ -1,4 +1,12 @@
-let selections = {};
+const SUBJECTS = [
+    'english',
+    'science',
+    'PDHPE',
+    'history',
+    'math',
+    'food-tech',
+    'visual-art'
+];
 
 const COLORS = [
     '#127ba3', // Blue
@@ -11,39 +19,47 @@ const COLORS = [
     '#C60F7B', // Purple
 ];
 
+let selections = new Array(SUBJECTS.length).fill(-1);
+
 function decode(s) {
-    const result = {};
-    if (!s) {
-        return result;
+    if (s.length < SUBJECTS.length) {
+        return new Array(SUBJECTS.length).fill(-1);
     }
-    s = s.substr(1);
-    for(const pair of s.split(',')) {
-        const [key, value] = pair.split('=');
-        result[key] = value;
+    const result = [];
+    for (const n of s.split('')) {
+        if (n === '-') result.push(-1);
+        else result.push(Number(n));
     }
     return result;
 }
 
 function init() {
-    const defaultValues = decode(window.location.hash);
-    let shareMode = Object.keys(defaultValues).length > 0;
+    const defaultValues = decode(window.location.hash.substr(1));
+    let shareMode = window.location.hash.length > 1;
 
-    for (const div of document.querySelectorAll('div')) {
-        if (div.dataset.element === "color-picker") {
-            if (shareMode && defaultValues[div.id]) {
-                const index = parseInt(defaultValues[div.id].split('-')[1]);
-                div.style.backgroundColor = COLORS[index];
-            } else if (!shareMode) {
-                renderColorPicker(div);
-            }
+    const formElements = [];
+    for (let i = 0; i < SUBJECTS.length; i++) {
+        const subject = SUBJECTS[i];
+        const label = document.createElement('p');
+        label.innerText = subject.replace('-', ' ');
+        formElements.push(label);
+
+        const colors = document.createElement('div');
+        colors.id = subject;
+        if (shareMode && defaultValues[i] >= 0) {
+            colors.style.backgroundColor = COLORS[defaultValues[i]];
+        } else if (!shareMode) {
+            renderColorPicker(colors);
         }
+        formElements.push(colors);
     }
+
     selections = defaultValues;
+    document.querySelector('.my-container').append(...formElements);
 }
 
 function updateUrl() {
-    const hash = Object.entries(selections).map(([a,b]) => `${a}=${b}`).join(',');
-    window.location.hash = hash;
+    window.location.hash = selections.map(v => v < 0 ? '-' : v).join('');
 }
 
 function colorBox(colorIndex) {
@@ -65,7 +81,8 @@ function renderColorPicker(div) {
         if (e.target.id.split('-')[0] !== 'index') {
             return;
         }
-        selections[div.id] = e.target.id;
+        const index = SUBJECTS.indexOf(div.id);
+        selections[index] = Number(e.target.id.split('-')[1]);
         for (box of allBoxes) {
             box.classList.remove('selected');
         }

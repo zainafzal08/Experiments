@@ -1,0 +1,270 @@
+@keyframes stamp {
+    0% {
+        opacity: 0;
+        transform: scale(3);
+    }
+    80% {
+        transform: scale(.7);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes fade-out {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes move-y {
+    0% {
+        opacity: 1;
+        transform: translateY(0%);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(15%);
+    }
+}
+
+@keyframes spiral {
+    0% {
+        opacity: 0;
+        transform: rotate(0deg) translateY(-45vh);
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        transform: rotate(480deg) translateY(0vh);
+    }
+}
+
+@keyframes spiral-flip {
+    0% {
+        opacity: 0;
+        transform: rotate(0deg) translateY(45vh);
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        transform: rotate(480deg) translateY(0vh);
+    }
+}
+
+@keyframes ripple {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(100);
+    }
+}
+
+@keyframes grow {
+    0% {
+        transform: scale(0);
+    }
+    60% {
+        transform: scale(1.4);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes wiper {
+    0% {
+        transform: translateX(-100%);
+    }
+    10% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 100vh;
+    font-family: 'Josefin Sans', sans-serif;
+}
+
+.background {
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.background>* {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.background #gradient-1 {
+    background: linear-gradient( 243.18deg, #7DC1E8 0%, rgba(125, 193, 232, 0.03) 100%);
+}
+
+.background #gradient-2 {
+    background: radial-gradient( 71.39% 71.39% at 14.41% 24.37%, rgba(43, 68, 255, 0.32) 0%, rgba(43, 68, 255, 0.07) 100%);
+}
+
+.background #gradient-3 {
+    background: radial-gradient( 31.49% 35.5% at 92.05% 18.51%, rgba(209, 93, 249, 0.25) 4.12%, rgba(209, 93, 249, 0) 100%);
+}
+
+.landing {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    place-items: center;
+    color: white;
+    margin: 0;
+    padding: 0;
+    font-size: 2rem;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.landing .welcome {
+    position: absolute;
+}
+
+.landing .title {
+    transform: translateY(225%);
+    position: absolute;
+    color: rgba(255, 255, 255, .7);
+    font-size: 3rem;
+}
+
+.dot {
+    width: 24px;
+    height: 24px;
+    background: rgba(255, 255, 255, .7);
+    border-radius: 50%;
+    position: absolute;
+}
+
+[data-animation-step] {
+    visibility: hidden;
+}
+
+[data-animation-step].shown {
+    visibility: visible;
+}
+
+[data-animation-step][data-start="visible"] {
+    visibility: visible;
+}
+
+.logo {
+    width: 124px;
+    height: 124px;
+    fill: rgba(255, 255, 255, .5);
+    position: absolute;
+}
+
+.logo-container {
+    width: 124px;
+    height: 124px;
+    position: relative;
+}
+
+.shine {
+    width: 124px;
+    height: 124px;
+    clip-path: path("M62 124C96.2417 124 124 96.2417 124 62C124 27.7583 96.2417 0 62 0C27.7583 0 0 27.7583 0 62C0 76.8053 5.18941 90.3985 13.8485 101.06L54.188 14.136L70.68 21.948L94.116 74.772L78.368 81.22L60.388 42.16L27.28 113.374C37.1861 120.082 49.1355 124 62 124Z");
+    position: absolute;
+}
+
+.shine>div {
+    width: 124px;
+    height: 124px;
+}
+
+.features {
+    width: 100%;
+    height: 500px;
+    background: #f2f2f2;
+    box-sizing: border-box;
+    padding: 64px;
+}
+
+.features h2 {
+    padding: 0;
+    margin: 0;
+    color: #6ea0e0;
+    font-size: 2.5rem;
+}
+
+.scroll {
+    stroke: rgba(255, 255, 255, .5);
+    transform: translateY(225%);
+    position: absolute;
+    width: 32px;
+    overflow: visible;
+}
+
+
+/** Animations */
+
+.stamp {
+    animation: stamp ease-in;
+}
+
+.fade-out {
+    animation: fade-out ease-out;
+    opacity: 0;
+}
+
+.fade-in {
+    animation: fade-out ease-out reverse;
+    opacity: 1;
+}
+
+.spiral {
+    animation: spiral ease-in;
+}
+
+.spiral-reflection {
+    animation: spiral-flip ease-in;
+}
+
+.ripple {
+    animation: ripple cubic-bezier(0.12, 0, 0.39, 0);
+    opacity: 0;
+}
+
+.grow {
+    animation: grow ease;
+}
+
+.wiper {
+    transform: translateX(-100%);
+    background: linear-gradient(45deg, transparent 0%, transparent 15%, rgba(255, 255, 255, 0.4) 40%, transparent 65%, transparent 100%);
+    animation: wiper ease-out infinite;
+}
+
+.move-y {
+    animation: move-y ease-out infinite;
+}

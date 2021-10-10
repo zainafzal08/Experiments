@@ -7,7 +7,8 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    padding-top: 64px;;
+    padding-top: 64px;
+    ;
 }
 
 h1 {
@@ -15,11 +16,13 @@ h1 {
     color: #444;
     font-size: 2em;
 }
+
 p {
     padding: 0;
     margin: 0;
     text-align: center;
     color: #999;
+    text-transform: capitalize;
 }
 
 .my-container {
@@ -31,15 +34,18 @@ p {
     margin-top: 48px;
     margin-bottom: 32px;
 }
+
 .my-container p {
     color: #444;
     text-align: left;
     margin: 0;
 }
+
 .my-container>div {
     display: flex;
     height: 32px;
 }
+
 .my-container .color-box {
     width: 32px;
     height: 32px;
@@ -47,10 +53,12 @@ p {
     margin-right: 4px;
     opacity: .5;
 }
+
 .my-container .color-box.selected {
     opacity: 1;
     transform: scale(1.2);
 }
+
 .actions {
     width: 200px;
     display: flex;
