@@ -1,79 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <meta name="description" content="Adventure Buddy" />
     <title>3D Fun</title>
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600&display=swap" rel="stylesheet">
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <meta charset="UTF-8" />
     <style>
-      body {
-        margin: 0;
-        padding: 0;
-        height: 100vh;
-        width: 100vw;
-        background: #f6f6f6;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-      .hex {
-        transform:rotate(30deg);
-        transition: all 200ms ease-in-out;
-        z-index: 1;
-      }
-      .icon {
-        position: absolute;
-        z-index: 2;
-        width: 46px;
-        height: 46px;
-      }
-      .option {
-        position: absolute;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 130px;
-        height: 130px;
-        cursor: pointer;
-      }
-      .option p {
-        width: 200px;
-        text-align: center;
-        position: absolute;
-        transform: translateY(70px);
-        font-family: 'Nunito', sans-serif;
-        color: #4568DC60;
-        transition: all 200ms ease-in-out;
-      }
-      .option:hover p {
-        transition: all 200ms ease-in-out;
-        color: #4568DCd0;
-      }
-      .option:hover .hex {
-        transform: rotate(120deg);
-      }
-      .left {
-        transform: translateX(-130px);
-      }
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            width: 100vw;
+            background: #f6f6f6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .hex {
+            transform: rotate(30deg);
+            transition: all 200ms ease-in-out;
+            z-index: 1;
+        }
+        
+        .icon {
+            z-index: 2;
+            width: 46px;
+            height: 46px;
+        }
+        
+        .option {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            flex-direction: column;
+        }
+        
+        .option .graphic {
+            width: 130px;
+            height: 130px;
+            display: grid;
+            place-items: center;
+        }
+        
+        .option .graphic>* {
+            grid-area: 1 / 1 / 1 / 1;
+        }
+        
+        .option p {
+            width: 200px;
+            text-align: center;
+            font-family: 'Nunito', sans-serif;
+            color: #4568DC60;
+            transition: all 200ms ease-in-out;
+            margin-top: 16px;
+        }
+        
+        a {
+            text-decoration: none;
+        }
+        
+        .option:hover p {
+            transition: all 200ms ease-in-out;
+            color: #4568DCd0;
+        }
+        
+        .option:hover .hex {
+            transform: rotate(120deg);
+        }
+        
+        .left {
+            transform: translateX(-130px);
+        }
     </style>
-  </head>
-  <body>
-    <div class="option" data-url="waves/index.html">
-      <img class="hex" src="assets/hex.svg"/>
-      <img class="icon" src="assets/sine-wave.svg"/>
-      <p>3D Waves</p>
-    </div>
+</head>
 
-    <script>
-      function navigate(url) {
-        window.location.href = url;
-      }
-      document.querySelectorAll('.option').forEach(option => option.addEventListener('click', () => navigate(option.dataset.url)))
-    </script>
-  </body>
+<body>
+    <a href="waves/index.html">
+        <div class="option" data-url="waves/index.html">
+            <div class="graphic">
+                <img class="hex" src="assets/hex.svg" />
+                <img class="icon" src="assets/sine-wave.svg" />
+            </div>
+            <p>3D Waves</p>
+        </div>
+    </a>
+
+    <a href="grass/index.html">
+        <div class="option">
+            <div class="graphic">
+                <img class="hex" src="assets/hex.svg" />
+                <img class="icon" src="assets/grass.svg" />
+            </div>
+            <p>Efficient Grass</p>
+        </div>
+    </a>
+</body>
+
 </html>
