@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>Breathe</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
+    <style>
+      body {
+        --main: #7EC796;
+        --color-0: #5EBD96;
+        --color-1: #9DCF94;
+        --color-2: #C9DD94;
+        --color-3: #F6EEAB;
+
+        background: var(--main);
+        font-family: 'Quicksand';
+        display: grid;
+        place-items: center;
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+        position: relative;
+      }
+      .pulse {
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        position: absolute;
+      }
+      .pulse.done {
+        transform: scale(25);
+        opacity: 0;
+      }
+    </style>
+    </head>
+	<body>
+        <script>
+            async function sleep(ms) {
+                return new Promise(r => {
+                    setTimeout(r, ms);
+                });
+            }
+            async function pulse(color, duration) {
+                const e = document.createElement("div");
+                e.classList.add("pulse");
+                e.style.backgroundColor = `var(${color})`;
+                document.body.append(e);
+                const animation = e.animate([
+                    {opacity: 1, transform: 'scale(1)'},
+                    {opacity: 0, transform: 'scale(25)'}
+                ], {duration, easing: 'ease-in-out'});
+                e.classList.add("done");
+                await new Promise(r => {
+                    animation.onfinish = r;
+                });
+                e.remove();
+            }
+            async function breatheIn() {
+                pulse("--color-0", 1200);
+                await sleep(1000);
+                pulse("--color-1", 1200);
+                await sleep(1000);
+                pulse("--color-2", 1200);
+                await sleep(1000);
+                pulse("--color-3", 1200);
+            }
+            window.addEventListener('click', breatheIn);
+        </script>
+	</body>
+</html>
